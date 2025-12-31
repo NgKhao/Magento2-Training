@@ -1,0 +1,19 @@
+{
+    "helloworld_visitor_log": {
+        "column": {
+            "log_id": true,
+            "visitor_name": true,
+            "visit_time": true,
+            "product_id": true,
+            "extra_note": true
+        },
+        "index": {
+            "HELLOWORLD_VISITOR_LOG_VISITOR_NAME": true,
+            "HELLOWORLD_VISITOR_LOG_VISIT_TIME": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "HELLOWORLD_VISITOR_LOG_PRD_ID_CAT_PRD_ENTT_ENTT_ID": true
+        }
+    }
+}

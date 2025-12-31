@@ -1,0 +1,29 @@
+# Exclude vendor (install via composer)
+vendor/
+
+# Exclude generated files
+generated/
+var/
+pub/static/
+pub/media/
+
+# Sensitive configs
+app/etc/env.php
+
+# Logs and caches
+*.log
+var/log/
+var/cache/
+var/session/
+var/report/
+
+# IDE/Editor metadata
+.idea/
+.DS_Store
+.vscode/
+
+# Other temp files
+*.zip
+*.tar.gz
+*.sql
+*.bak

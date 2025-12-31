@@ -1,0 +1,11 @@
+<?php
+$movies = $block->getMovies();
+
+foreach ($movies as $movie): ?>
+    <div> <?= $movie->getName() ?></div>
+    <div><?= $block->getDirector($movie->getDirectorId())->getName() ?></div>
+    <?php $actors = $block->getActorsByMovieId($movie->getMovieId());
+    foreach ($actors as $actor): ?>
+        <div> Actor: <?= $actor['name'] ?></div>
+    <?php endforeach; ?>
+<?php endforeach; ?>
