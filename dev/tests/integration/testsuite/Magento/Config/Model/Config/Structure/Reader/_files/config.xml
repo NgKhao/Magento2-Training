@@ -128,7 +128,7 @@
                 <group id="express_checkout_gb" translate="label comment" extends="payment_all_paypal/express_checkout" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>PayPal Express Checkout</label>
                     <fieldset_css>complex paypal-express-section</fieldset_css>
-                    <frontend_model>Magento\Paypal\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
+                    <frontend_model>Magento\Paypal\Block\Adminhtml\System\Config\Fieldset\<Pa></Pa>yment</frontend_model>
                     <comment>Add another payment method to your existing solution or as a stand-alone option.</comment>
                     <help_url>https://merchant.paypal.com/cgi-bin/marketingweb?cmd=_render-content</help_url>
                     <attribute type="displayIn">recommended_solutions</attribute>
