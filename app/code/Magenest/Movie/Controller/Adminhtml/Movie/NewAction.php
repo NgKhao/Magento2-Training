@@ -22,4 +22,9 @@ class NewAction extends Action
         $resultPage->getConfig()->getTitle()->prepend(__('New Movie'));
         return $resultPage;
     }
+
+    public function _isAllowed()
+    {
+        return $this->_authorization->isAllowed('Magenest_Movie::movie');
+    }
 }

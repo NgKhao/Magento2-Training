@@ -39,4 +39,9 @@ class Save extends Action
         }
         return $this->_redirect('*/*/');
     }
+
+    public function _isAllowed()
+    {
+        return $this->_authorization->isAllowed('Magenest_Movie::movie');
+    }
 }

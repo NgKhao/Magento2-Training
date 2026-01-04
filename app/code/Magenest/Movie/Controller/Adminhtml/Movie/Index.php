@@ -20,8 +20,8 @@ class Index extends Action{
         return $resultPage;
     }
 
-//    public function  _isAllowed()
-//    {
-//        return $this->_authorization->isAllowed('Magenest_Movie::movie');
-//    }
+    public function  _isAllowed()
+    {
+        return $this->_authorization->isAllowed('Magenest_Movie::movie');
+    }
 }
