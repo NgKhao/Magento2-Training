@@ -1,0 +1,58 @@
+<div class="modal-container">
+    <h1><?= __('Modal Test Page') ?></h1>
+</div>
+
+<div class="buttons-container">
+    <button type="button"
+        id="btn-alert-modal"
+        class="action primary">
+        <?= __('Open Alert Modal') ?>
+    </button>
+
+    <button type="button"
+        id="btn-login-modal"
+        class="action primary">
+        <?= __('Open Login Modal') ?>
+    </button>
+</div>
+
+
+<!-- Model Content -->
+<div id="login-modal-content" style="display: none;">
+    <form id="login-form">
+        <div class="field">
+            <label for="email"><?= __('Email') ?></label>
+            <input type="email" id="email" name="email" class="input-text"
+                placeholder="<?= __('Enter your email') ?>" />
+        </div>
+        <div class="field">
+            <label for="password"><?= __('Password') ?></label>
+            <input type="password"
+                id="password"
+                name="password"
+                class="input-text"
+                placeholder="<?= __('Enter your password') ?>" />
+        </div>
+
+        <div class="actions">
+            <button type="submit" class="action primary login-btn">
+                <?= __('Login') ?>
+            </button>
+        </div>
+
+        <div class="extra-links">
+            <a href="#"><?= __('Forgot Password?') ?></a>
+            <span><?= __('Not registered?') ?></span>
+            <a href="#"><?= __('Create an Account') ?></a>
+        </div>
+
+    </form>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magenest_Movie/js/modal-handler": {}
+        }
+    }
+</script>
