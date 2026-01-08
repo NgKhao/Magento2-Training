@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <fieldset name="customer">
+        <field name="avatar">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Avatar</item>
+
+                    <item name="source" xsi:type="string">customer</item>
+                    <item name="dataScope" xsi:type="string">avatar</item>
+
+                    <!-- Bật image uploader -->
+                    <item name="formElement" xsi:type="string">imageUploader</item>
+                    <item name="componentType" xsi:type="string">imageUploader</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/form/element/image-uploader</item>
+
+                    <!-- Preview template có sẵn -->
+                    <item name="previewTmpl" xsi:type="string">Magento_Catalog/image-preview</item>
+
+                    <!-- URL để upload file -->
+                    <item name="uploaderConfig" xsi:type="array">
+                        <item name="url" xsi:type="url" path="movie/avatar/upload"/>
+                    </item>
+
+                    <item name="allowedExtensions" xsi:type="string">jpg jpeg png</item>
+                    <item name="maxFileSize" xsi:type="number">2097152</item>
+                    <item name="sortOrder" xsi:type="number">90</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+</form>

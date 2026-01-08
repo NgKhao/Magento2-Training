@@ -1,7 +1,6 @@
 <?php
 namespace Magenest\Movie\Plugin;
 
-use Magenest\Movie\Helper\Data as Helper;
 use Magento\Quote\Model\Quote\Item as QuoteItem;
 use Magento\Checkout\CustomerData\ItemPool;
 use Magento\Catalog\Api\ProductRepositoryInterface;
