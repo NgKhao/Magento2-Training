@@ -7,4 +7,15 @@
         <plugin name="movie_customeravatar_save"
                 type="Magenest\Movie\Plugin\CustomerSave"/>
     </type>
+
+    <!-- Khai báo Grid Collection -->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="movie_listing_data_source" xsi:type="string">
+                    Magenest\Movie\Model\ResourceModel\Movie\Grid\Collection
+                </item>
+            </argument>
+        </arguments>
+    </type>
 </config>

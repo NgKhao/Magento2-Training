@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+<!--    cấu hình js và provider -->
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">movie_listing.movie_listing_data_source</item>
+        </item>
+    </argument>
+
+    <settings>
+        <buttons>
+            <button name="add">
+                <url path="*/*/new"/>
+                <class>primary</class>
+                <label translate="true">Add New Movie</label>
+            </button>
+        </buttons>
+        <spinner>movie_columns</spinner>
+        <deps>
+            <dep>movie_listing.movie_listing_data_source</dep>
+        </deps>
+    </settings>
+
+<!--    kết nối UI và datasourcer -->
+    <dataSource name="movie_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider"
+                      name="movie_listing_data_source">
+            <settings>
+                <requestFieldName>movie_id</requestFieldName>
+                <primaryFieldName>movie_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <!-- Toolbar -->
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <columnsControls name="columns_controls"/>
+        <filterSearch/>
+        <filters name="listing_filters"/>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+
+    <!-- Columns -->
+    <columns name="movie_columns">
+        <selectionsColumn name="ids" sortOrder="10">
+            <settings>
+                <indexField>movie_id</indexField>
+            </settings>
+        </selectionsColumn>
+
+        <column name="movie_id" sortOrder="20">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+            </settings>
+        </column>
+
+        <column name="name" sortOrder="30">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Name</label>
+            </settings>
+        </column>
+
+        <column name="description" sortOrder="40">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Description</label>
+            </settings>
+        </column>
+
+        <column name="rating" class="Magenest\Movie\Ui\Component\Listing\Column\Rating" sortOrder="50">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Rating</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+
+        <column name="director_id" sortOrder="60">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Director ID</label>
+            </settings>
+        </column>
+    </columns>
+
+</listing>
