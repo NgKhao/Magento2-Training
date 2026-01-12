@@ -33,7 +33,7 @@ class Rating extends Column
         if(isset($dataSource['data']['items'])) {
 
             // rating
-            $fieldName = $this->getData('rating');
+            $fieldName = $this->getData('name');
 
             foreach ($dataSource['data']['items'] as &$item) {
                 if(isset($item[$fieldName])) {
