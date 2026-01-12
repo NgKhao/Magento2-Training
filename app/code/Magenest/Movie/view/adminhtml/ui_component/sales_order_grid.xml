@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <columns name="sales_order_columns">
+        <column name="odd_even" class="Magenest\Movie\Ui\Component\Listing\Column\OddEven">
+            <settings>
+                <label translate="true">Odd/Even</label>
+                <dataType>text</dataType>
+
+<!--                cho phép render html -->
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+    </columns>
+</listing>

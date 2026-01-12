@@ -41,6 +41,7 @@ class Rating extends Column
                     $item[$fieldName] = $this->renderStars($rating);
                 }
             }
+            unset($item);
         }
         return $dataSource;
     }
