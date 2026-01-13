@@ -27,5 +27,14 @@ instance" xsi:noNamespaceSchemaLocation=
             action="movie/movie/index"
             resource="Magenest_Movie::movie"
         />
+        <add
+            id="Magenest_Movie::movie_dashboard"
+            title="Dashboard"
+            module="Magenest_Movie"
+            sortOrder="100"
+            action="movie/dashboard/index"
+            parent="Magenest_Movie::movie"
+            resource="Magenest_Movie::dashboard"
+        />
     </menu>
 </config>

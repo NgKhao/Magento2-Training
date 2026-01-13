@@ -1,0 +1,58 @@
+<?php
+/**
+ * @var \Magenest\Movie\Block\Adminhtml\Dashboard $block
+ */
+?>
+<section class="admin__page-section order-view-account-information">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $block->escapeHtml(__('Request Made Today')) ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-information">
+            <div class="admin__page-section-item-title">
+                <div class="title">
+                    <?= __('Total modules installed') ?>
+                    <?= (int)$block->getTotalModules() ?>
+                </div>
+                <div class="title">
+                    <?= __('Non-Magento (3rd-party) modules') ?>
+                    <?= (int)$block->getThirdPartyModules() ?>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="admin__page-section-item order-account-information">
+            <div class="admin__page-section-item-title">
+                <span class="title">Toltal</span>
+            </div>
+            <div class="admin__page-section-item-content">
+                <table class="admin__table-secondary order-account-information-table">
+                    <tbody><tr>
+                        <th><?= __('Customers') ?></th>
+                        <td>
+                            <?= (int)$block->getCustomersCount() ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?= __('Products') ?></th>
+                        <td><?= (int)$block->getProductsCount() ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= __('Orders') ?></th>
+                        <td><?= (int)$block->getOrdersCount() ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= __('Invoices') ?></th>
+                        <td><?= (int)$block->getInvoicesCount() ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= __('Creditmemos') ?></th>
+                        <td><?= (int)$block->getCreditmemosCount() ?></td>
+                    </tr>
+                    </tbody></table>
+            </div>
+        </div>
+    </div>
+</section>
+

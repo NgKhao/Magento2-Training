@@ -13,7 +13,9 @@
                         </resource>
                     </resource>
                 </resource>
-                <resource id="Magenest_Movie::movie" title="Magenest Movie"/>
+                <resource id="Magenest_Movie::movie" title="Magenest Movie">
+                    <resource id="Magenest_Movie::dashboard" title="Dashboard"/>
+                </resource>
             </resource>
         </resources>
     </acl>
