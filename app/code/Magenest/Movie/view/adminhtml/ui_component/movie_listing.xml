@@ -27,6 +27,9 @@
     <dataSource name="movie_listing_data_source" component="Magento_Ui/js/grid/provider">
         <settings>
             <updateUrl path="mui/index/render"/>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">movie_id</param>
+            </storageConfig>
         </settings>
         <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider"
                       name="movie_listing_data_source">

@@ -6,9 +6,9 @@
                   instance="Magenest\Movie\Observer\CustomerSaveBefore"/>
     </event>
 
-    <event name="movie_before_save">
-        <observer name="magenest_movie_reset_rating"
-                  instance="Magenest\Movie\Observer\ResetMovieRating"
-        />
-    </event>
+<!--    <event name="movie_before_save">-->
+<!--        <observer name="magenest_movie_reset_rating"-->
+<!--                  instance="Magenest\Movie\Observer\ResetMovieRating"-->
+<!--        />-->
+<!--    </event>-->
 </config>

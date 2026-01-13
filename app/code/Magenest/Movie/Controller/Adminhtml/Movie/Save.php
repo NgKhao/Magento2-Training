@@ -17,11 +17,8 @@ class Save extends Action
 
     public function execute()
     {
+        $resultRedirect = $this->resultRedirectFactory->create();
         $data = $this->getRequest()->getPostValue(); //lấy toàn bộ data post
-//        [
-//            'name' => 'Avatar',
-//            'description' => 'Sci-fi movie',
-//        ]
 
         if(!$data)
         {
@@ -29,11 +26,27 @@ class Save extends Action
         }
 
         try{
+            $movieId = $data['movie_id'] ?? null;
             $movie = $this->movieFactory->create();
+            if ($movieId) {
+                $movie->load($movieId);
+                if (!$movie->getId()) {
+                    throw new \Exception(__('This movie no longer exists.'));
+                }
+            }
+
+            unset($data['form_key']);
+
+            if (isset($data['movie_id']) && $data['movie_id'] === '') {
+                unset($data['movie_id']);
+            }
             $movie->setData($data);
             $movie->save();
 
             $this->messageManager->addSuccessMessage(__('You saved the movie.'));
+//            return $resultRedirect->setPath('*/*/edit', [
+//                'movie_id' => $movie->getId()
+//            ]);
         } catch (\Exception $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
         }
