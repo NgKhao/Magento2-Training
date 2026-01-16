@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-    <event name="customer_save_before">
-        <observer name="force_customer_firstname"
-                  instance="Magenest\Movie\Observer\CustomerSaveBefore"/>
-    </event>
+<!--    <event name="customer_save_before">-->
+<!--        <observer name="force_customer_firstname"-->
+<!--                  instance="Magenest\Movie\Observer\CustomerSaveBefore"/>-->
+<!--    </event>-->
 
 <!--    <event name="movie_before_save">-->
 <!--        <observer name="magenest_movie_reset_rating"-->

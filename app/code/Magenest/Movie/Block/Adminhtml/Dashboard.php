@@ -11,9 +11,9 @@ class Dashboard extends Template
     private  ModuleListInterface $moduleList;
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        array $data = [],
         ModuleListInterface $moduleList,
         ResourceConnection $resourceConnection,
+        array $data = [],
     ){
         $this->resourceConnection = $resourceConnection;
         $this->moduleList = $moduleList;
