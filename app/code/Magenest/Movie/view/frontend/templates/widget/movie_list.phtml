@@ -1,0 +1,63 @@
+<?php
+/**
+ * @var \Magenest\Movie\Block\Widget\MovieList $block
+ */
+$movies = $block->getMovies();
+?>
+<div>
+    <?php if ($movies->getSize() > 0): ?>
+        <!-- getSize(): Đếm số phim trong collection -->
+
+        <div >
+            <?php foreach ($movies as $movie): ?>
+
+                <div>
+                    <h3>
+                        <?= $block->escapeHtml($movie->getName()) ?>
+                    </h3>
+                    <div class="movie-rating">
+                        <span ><?= __('Rating: ') ?></span>
+                        <span >
+                            <?= $block->escapeHtml($movie->getRating()) ?>/10
+                        </span>
+                    </div>
+
+                    <?php
+                    $director = $block->getDirector($movie->getDirectorId());
+                    ?>
+                    <div >
+                        <span ><?= __('Director:') ?></span>
+                        <span >
+                            <?= $block->escapeHtml($director->getName()) ?>
+                        </span>
+                    </div>
+
+                    <?php
+                    $actors = $block->getActorsByMovieId($movie->getMovieId());
+                    ?>
+                    <?php if (! empty($actors)): ?>
+                        <div>
+                            <span><?= __('Actors:') ?></span>
+                            <ul>
+                                <?php foreach ($actors as $actor): ?>
+                                    <li><?= $block->escapeHtml($actor['name']) ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($movie->getDescription()): ?>
+                        <div>
+                            <?= $block->escapeHtml($movie->getDescription()) ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+            <?php endforeach; ?>
+        </div>
+
+    <?php else: ?>
+        <p><?= __('No movies found.') ?></p>
+    <?php endif; ?>
+
+</div>

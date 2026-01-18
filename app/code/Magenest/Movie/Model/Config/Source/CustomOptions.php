@@ -1,7 +1,7 @@
 <?php
 namespace Magenest\Movie\Model\Config\Source;
 
-use Magento\Framework\Option\ArrayInterface;
+use Magento\Framework\Option\ArrayInterface; // change OptionSourceInterface
 
 class CustomOptions implements ArrayInterface
 {

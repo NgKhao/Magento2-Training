@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="magenest_movie_list" class="Magenest\Movie\Block\Widget\MovieList">
+        <label translate="true">Magenest Movie List Widget</label>
+        <description translate="true">Display list of movies with customizable options</description>
+        <parameters>
+    <!--        parameter: các tham số admin có thể config -->
+            <parameter name="title" xsi:type="text" required="false" visible="true">
+                <label translate="true">Widget Title</label>
+                <description translate="true">Title to display above movie list</description>
+            </parameter>
+
+            <!-- Tham số 2: Số lượng phim hiển thị -->
+            <parameter name="movie_count" xsi:type="text" required="true" visible="true">
+                <label translate="true">Number of Movies</label>
+                <description translate="true">How many movies to display</description>
+                <value>5</value> <!-- Giá trị mặc định -->
+            </parameter>
+
+            <parameter name="min_rating" xsi:type="select" required="false" visible="true"
+                       source_model="Magenest\Movie\Model\Config\Source\Rating">
+                <label translate="true">Minimum Rating</label>
+                <description translate="true">Show only movies with rating equal or higher</description>
+            </parameter>
+
+            <parameter name="sort_by" xsi:type="select" required="false" visible="true">
+                <label translate="true">Sort By</label>
+                <options>
+                    <option name="name_asc" value="name_asc" selected="true">
+                        <label translate="true">Name (A-Z)</label>
+                    </option>
+                    <option name="name_desc" value="name_desc">
+                        <label translate="true">Name (Z-A)</label>
+                    </option>
+                    <option name="rating_desc" value="rating_desc">
+                        <label translate="true">Rating (High to Low)</label>
+                    </option>
+                    <option name="rating_asc" value="rating_asc">
+                        <label translate="true">Rating (Low to High)</label>
+                    </option>
+                </options>
+            </parameter>
+
+            <parameter name="template" xsi:type="select" required="true" visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="Magenest_Movie::widget/movie_list.phtml" selected="true">
+                        <label translate="true">Movie List - Grid View</label>
+                    </option>
+                    <option name="list" value="Magenest_Movie::widget/movie_list_simple.phtml">
+                        <label translate="true">Movie List - Simple List</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>
