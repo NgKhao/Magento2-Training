@@ -43,6 +43,7 @@ class AddCourseAttributes implements DataPatchInterface
                 'type' => 'datetime',
                 'input' => 'datetime',
                 'label' => 'Course End Time',
+                'required' => false,
             ]
         );
 

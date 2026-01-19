@@ -1,0 +1,20 @@
+<?php
+/** @var \Magenest\Movie\Block\Adminhtml\Customer\Edit\Tab\Avatar $block */
+$customer = $block->getCustomer();
+$avatarUrl = $block->getAvatarUrl();
+?>
+<div class="admin__page-section-item">
+    <div class="admin__page-section-item-title">
+        <span class="title"><?= $block->escapeHtml(__('Customer Avatar')) ?></span>
+    </div>
+
+    <div class="admin__page-section-item-content">
+        <?php if ($avatarUrl): ?>
+            <img src="<?= $block->escapeUrl($avatarUrl) ?>"
+                 alt="<?= $block->escapeHtml(__('Customer Avatar')) ?>"
+                 style="max-width: 200px; border: 1px solid #d6d6d6;"/>
+        <?php else: ?>
+            <p><?= $block->escapeHtml(__('No avatar uploaded yet.')) ?></p>
+        <?php endif; ?>
+    </div>
+</div

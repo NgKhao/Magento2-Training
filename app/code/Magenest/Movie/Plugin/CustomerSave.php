@@ -2,38 +2,33 @@
 
 namespace Magenest\Movie\Plugin;
 
-use Magento\Customer\Model\Customer;
-use Psr\Log\LoggerInterface;
+use Magento\Framework\App\RequestInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Api\Data\CustomerInterface;
 
 class CustomerSave
 {
+    private $request;
     public function __construct(
-        private LoggerInterface $logger
-    ) {}
+        RequestInterface $request
+    ) {
+        $this->request = $request;
+    }
 
-    public function beforeSave(Customer $subject)
-    {
-        // Lấy data trực tiếp từ attribute 'avatar'
-        $value = $subject->getData('avatar');
+    public function beforeSave(
+        CustomerRepositoryInterface $subject,
+        CustomerInterface $customer
+    ) {
+        $customerPostData = $this->request->getPostValue('customer');
 
-        // Log để debug
-        $this->logger->info('Avatar data before save:', ['data' => $value]);
-
-        // Nếu không có data hoặc đã là string (đã xử lý rồi) thì skip
-        if (!$value || is_string($value)) {
-            return null;
+        if (isset($customerPostData['avatar'])
+            && is_array($customerPostData['avatar'])
+            && !empty($customerPostData['avatar'][0]['file'])
+        ) {
+            $avatarPath = $customerPostData['avatar'][0]['file'];
+            $customer->setCustomAttribute('avatar', $avatarPath);
         }
 
-        // imageUploader gửi dạng:
-        // [ ['name' => 'ao.jpeg', 'url' => '...', 'file' => 'ao.jpeg'] ]
-        if (is_array($value) && isset($value[0]['file'])) {
-            $fileName = $value[0]['file'];
-            $path = 'customers/avatar/' . $fileName;
-
-            // Set lại đúng chuẩn EAV - chỉ cần setData thôi
-            $subject->setData('avatar', $path);
-        }
-
-        return null;
+        return [$customer];
     }
 }

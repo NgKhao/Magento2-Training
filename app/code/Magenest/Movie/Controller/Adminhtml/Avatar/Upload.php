@@ -27,25 +27,29 @@ class Upload extends Action
     {
         $result = $this->jsonFactory->create();
         try {
+//            Lấy Media directory pub/media/
             $mediaDir = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
 
             $uploader =$this->uploaderFactory->create(['fileId' => 'customer[avatar]']);
             $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
             $uploader->setAllowRenameFiles(true);
+            $uploader->setFilesDispersion(false);
 
             $path = 'customers/avatar';
-            $saved = $uploader->save($mediaDir->getAbsolutePath($path));
+            $saved = $uploader->save($mediaDir->getAbsolutePath($path)); // save vào folder
 
-            // ✅ Sửa:  Dùng URL_TYPE_MEDIA thay vì ghép thủ công
+            $fileName = $saved['file'];
+
+            $relativePath = $path .  '/' . $fileName;
+
+            //Build preview URL
             $baseMediaUrl = $this->storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA);
-
-            $fileName = ltrim($saved['file'], '/'); // vd abc.jpg
 
             // JSON format để uploader preview
             return $result->setData([
-                'name' => $fileName,
-                'file' => $fileName,
-                'url'  => $baseMediaUrl . 'customers/avatar/' . $fileName, // ✅ Đúng format
+                'name' => $saved['name'],
+                'file' => $relativePath,
+                'url'  => $baseMediaUrl . $relativePath, // Full URL - PREVIEW
             ]);
         } catch (\Throwable $e) {
             return $result->setData(['error' => $e->getMessage()]);

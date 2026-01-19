@@ -2,11 +2,10 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <type name="Magento\Customer\Model\Customer">
-
-        <plugin name="movie_customeravatar_save"
-                type="Magenest\Movie\Plugin\CustomerSave"/>
-    </type>
+<!--    <type name="Magento\Customer\Api\CustomerRepositoryInterface">-->
+<!--        <plugin name="magenest_movie_customer_save_avatar"-->
+<!--                type="Magenest\Movie\Plugin\CustomerSave"/>-->
+<!--    </type>-->
 
     <!-- Khai báo Grid Collection -->
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
