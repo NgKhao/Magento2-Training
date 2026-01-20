@@ -3,30 +3,31 @@ namespace Magenest\Movie\Block\Adminhtml\Customer\Edit\Tab;
 
 use Magento\Backend\Block\Template;
 use Magento\Backend\Block\Template\Context;
-use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Model\CustomerFactory;
 use Magento\Backend\Block\Widget\Tab\TabInterface;
-use Magento\Customer\Controller\RegistryConstants;
-use Magento\Framework\Registry;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\UrlInterface;
+use Magento\Framework\App\RequestInterface;
 
 class Avatar extends Template implements TabInterface
 {
-    protected $coreRegistry;
-    protected $customerRepository;
+    protected $request;
+    protected $customerFactory;
     protected $storeManager;
+
     public function __construct(
         Context $context,
-        Registry $coreRegistry,
-        CustomerRepositoryInterface $customerRepository,
+        RequestInterface $request,
+        CustomerFactory $customerFactory,
         StoreManagerInterface $storeManager,
         array $data = []
     ) {
-        $this->coreRegistry = $coreRegistry;
-        $this->customerRepository = $customerRepository;
+        $this->request = $request;
+        $this->customerFactory = $customerFactory;
         $this->storeManager = $storeManager;
         parent::__construct($context, $data);
     }
+
     public function getTabLabel()
     {
         return __('Avatar Information');
@@ -39,7 +40,7 @@ class Avatar extends Template implements TabInterface
 
     public function canShowTab()
     {
-        return true;
+        return (bool)$this->getCustomerId();
     }
 
     public function isHidden()
@@ -47,35 +48,51 @@ class Avatar extends Template implements TabInterface
         return false;
     }
 
+    public function getCustomerId()
+    {
+        return $this->request->getParam('id');
+    }
+
     public function getCustomer()
     {
-        $customerId = $this->coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
-        return $customerId ? $this->customerRepository->getById($customerId) : null;
+        $customerId = $this->getCustomerId();
+        if (!$customerId) {
+            return null;
+        }
+
+        // Load customer model để có thể lấy EAV attributes
+        $customer = $this->customerFactory->create()->load($customerId);
+        return $customer;
     }
 
     public function getAvatarUrl()
     {
         $customer = $this->getCustomer();
 
-        if (!$customer) {
+        if (!$customer || !$customer->getId()) {
             return null;
         }
 
-        $avatarAttribute = $customer->getCustomAttribute('avatar');
-        if (!$avatarAttribute) {
-            return null;
-        }
+        // Lấy avatar từ customer model (EAV attribute)
+        $avatarPath = $customer->getData('avatar');
+        $avatarPath = $avatarPath[0]['file'] ?? null;
 
-        $avatarPath = $avatarAttribute->getValue();
-        if (!is_string($avatarPath) || empty($avatarPath)) {
+        if (!$avatarPath || !is_string($avatarPath)) {
             return null;
         }
 
         $baseMediaUrl = $this->storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA);
 
         return rtrim($baseMediaUrl, '/') . '/' . ltrim($avatarPath, '/');
-
     }
 
+    public function getAvatarPath()
+    {
+        $customer = $this->getCustomer();
+        if (!$customer || !$customer->getId()) {
+            return null;
+        }
+        return $customer->getData('avatar');
+    }
 }
 

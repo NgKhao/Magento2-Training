@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Magenest\Movie\Model\Customer\Attribute\Backend;
 
 use Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend;
-use Magento\Framework\DataObject;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\ObjectManager;
 
 class Avatar extends AbstractBackend
 {
@@ -19,11 +18,18 @@ class Avatar extends AbstractBackend
 
     public function __construct(
         StoreManagerInterface $storeManager,
-        Filesystem $filesystem,
-    )
-    {
+        Filesystem $filesystem
+    ) {
         $this->storeManager = $storeManager;
         $this->filesystem = $filesystem;
+    }
+
+    /**
+     * Get Request from ObjectManager
+     */
+    private function getRequest()
+    {
+        return ObjectManager::getInstance()->get(\Magento\Framework\App\RequestInterface::class);
     }
 
     /**
@@ -59,36 +65,58 @@ class Avatar extends AbstractBackend
     }
 
     /**
-     * Giống core _filterCategoryPostData + beforeSave: Convert array → string, handle delete
+     * Convert array → string path before save
      */
     public function beforeSave($object)
     {
         $attributeCode = $this->getAttribute()->getAttributeCode();
-        $value = $object->getData($attributeCode);
-
-        if (is_array($value)) {
-            // Handle delete (core gửi delete flag hoặc [deleted])
-            if (!empty($value['delete']) || (isset($value[0]['file']) && $value[0]['file'] === '[deleted]')) {
-                // Optional: xóa file cũ
-                $oldValue = $object->getOrigData($attributeCode);
-                if ($oldValue && is_string($oldValue)) {
-                    $mediaDir = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-                    try {
-                        $mediaDir->delete($oldValue);
-                    } catch (\Exception $e) {
-                        // ignore
-                    }
-                }
-                $object->setData($attributeCode, null);
-            } // Upload mới: lấy file path từ uploader (giống core lấy [0]['name'])
-            elseif (isset($value[0]['file']) && is_string($value[0]['file'])) {
-                $object->setData($attributeCode, $value[0]['file']);
-            } else {
-                // Giữ nguyên hoặc unset nếu invalid
-                unset($object[$attributeCode]);
-            }
+        $postData = $this->getRequest()->getPostValue();
+        if (isset($postData['customer'][$attributeCode])) {
+            $value = $postData['customer'][$attributeCode];
         }
 
+        $finalValue = null;
+
+        if (is_array($value) && !empty($value)) {
+            // Handle delete
+            if (!empty($value['delete']) || (isset($value[0]['file']) && $value[0]['file'] === '[deleted]')) {
+                $this->deleteOldImage($object, $attributeCode);
+                $finalValue = null;
+            }
+            // Upload mới - Format: [0]['file']
+            elseif (isset($value[0]['file']) && is_string($value[0]['file']) && $value[0]['file'] !== '[deleted]') {
+                $finalValue = $value[0]['file'];
+            }
+            // Giữ nguyên value cũ
+            else {
+                $finalValue = $object->getOrigData($attributeCode);
+            }
+        } elseif (is_string($value) && $value) {
+            $finalValue = $value;
+        } else {
+            $finalValue = $object->getOrigData($attributeCode);
+        }
+
+        $object->setData($attributeCode, $finalValue);
+
         return parent::beforeSave($object);
+    }
+
+    /**
+     * Delete old image file
+     */
+    private function deleteOldImage($object, $attributeCode)
+    {
+        $oldValue = $object->getOrigData($attributeCode);
+        if ($oldValue && is_string($oldValue)) {
+            $mediaDir = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+            try {
+                if ($mediaDir->isExist($oldValue)) {
+                    $mediaDir->delete($oldValue);
+                }
+            } catch (\Exception $e) {
+                // Ignore delete errors
+            }
+        }
     }
 }

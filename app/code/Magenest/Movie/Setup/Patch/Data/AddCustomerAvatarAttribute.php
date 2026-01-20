@@ -28,13 +28,18 @@ class AddCustomerAvatarAttribute implements DataPatchInterface {
             [
                 'type' => 'varchar',
                 'label' => 'Avatar',
-                'input' => 'text', //UI component sẽ render uploader, DB vẫn lưu path (varchar)
+                'input' => 'text',
                 'required' => false,
                 'visible' => true,
+                'system' => false,
+                'user_defined' => true,
+                'position' => 100,
+                'sort_order' => 100,
+                'backend' => \Magenest\Movie\Model\Customer\Attribute\Backend\Avatar::class,
             ]
         );
 
-        //lưu attrive vào form customer
+        // Lưu attribute vào form customer
         $attribute = $customerSetup->getEavConfig()->getAttribute(Customer::ENTITY, 'avatar');
         $attribute->setData('used_in_forms', ['adminhtml_customer']);
         $attribute->save();
