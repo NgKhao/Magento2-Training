@@ -5,4 +5,14 @@
         <observer name="magenest_change_ping_to_pong"
                   instance="Magenest\Movie\Observer\ConfigPingToPong"/>
     </event>
+
+<!--    <event name="catalog_product_load_after">-->
+<!--        <observer name="magenest_movie_product_load_after"-->
+<!--                  instance="Magenest\Movie\Observer\Catalog\ProductLoadAfter"/>-->
+<!--    </event>-->
+
+    <event name="catalog_product_save_after">
+        <observer name="magenest_movie_product_save_documents"
+                  instance="Magenest\Movie\Observer\Catalog\ProductSaveAfter"/>
+    </event>
 </config>

@@ -33,6 +33,9 @@ class AddCourseAttributes implements DataPatchInterface
                 'input' => 'datetime',
                 'label' => 'Course Start Time',
                 'required' => false,
+                'user_defined' => true,
+                'visible' => true,
+                'system' => 0,
             ]
         );
 
@@ -44,6 +47,9 @@ class AddCourseAttributes implements DataPatchInterface
                 'input' => 'datetime',
                 'label' => 'Course End Time',
                 'required' => false,
+                'user_defined' => true,
+                'visible' => true,
+                'system' => 0,
             ]
         );
 
