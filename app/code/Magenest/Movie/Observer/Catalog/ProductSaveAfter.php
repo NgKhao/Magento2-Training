@@ -35,7 +35,7 @@ class ProductSaveAfter implements ObserverInterface
             return;
         }
 
-        $documents = $product->getData('course_documents');
+        $documents = $product->getData('course_documents')['course_documents'];
 
         if (!is_array($documents) || empty($documents)) {
             return;
@@ -89,6 +89,7 @@ class ProductSaveAfter implements ObserverInterface
                     'product_id' => $product->getId(),
                     'title' => $documentData['title'] ?? '',
                     'type' => $documentData['type'] ?? 'link',
+                    'link_url' => $documentData['link_url'] ?? '',
                     'file_name' => $documentData['file'] ?? '',
                     'file_path' => $documentData['file'] ?? '',
                 ]);
