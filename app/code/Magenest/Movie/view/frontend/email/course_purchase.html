@@ -1,0 +1,62 @@
+<!--
+/**
+ * Email template đơn giản cho Course Purchase
+ *
+ * Biến được truyền từ Observer:
+ * - customer_name: Tên khách hàng (string)
+ * - course_name: Tên khóa học (string)
+ * - order_id: Mã đơn hàng (string)
+ * - order_date: Ngày đặt (string)
+ * - documents_html: HTML của documents (string)
+ */
+-->
+
+<!--@subject Xác nhận mua khóa học - Đơn hàng #{{var order_id}} @-->
+<!--@styles
+body {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+}
+h2, h3 {
+    color: #1979c3;
+}
+.info-box {
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 15px 0;
+}
+ul {
+    margin: 10px 0;
+}
+@-->
+
+{{template config_path="design/email/header_template"}}
+
+<h2>Xin chào {{var customer_name}},</h2>
+
+<p>Cảm ơn bạn đã mua khóa học <strong>{{var course_name}}</strong>!</p>
+
+<div class="info-box">
+    <h3>Thông tin đơn hàng</h3>
+    <ul>
+        <li><strong>Mã đơn hàng:</strong> {{var order_id}}</li>
+        <li><strong>Ngày đặt hàng:</strong> {{var order_date}}</li>
+        <li><strong>Khóa học:</strong> {{var course_name}}</li>
+    </ul>
+</div>
+
+<h3>📚 Tài liệu tham khảo liên quan</h3>
+{{var documents_html|raw}}
+
+<p>Nếu cần hỗ trợ, vui lòng liên hệ chúng tôi!</p>
+
+<p>Trân trọng,<br/>
+<strong>Đội ngũ hỗ trợ</strong></p>
+
+{{template config_path="design/email/footer_template"}}
+
+
+

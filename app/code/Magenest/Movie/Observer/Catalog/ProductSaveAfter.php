@@ -35,7 +35,7 @@ class ProductSaveAfter implements ObserverInterface
             return;
         }
 
-        $documents = $product->getData('course_documents')['course_documents'];
+        $documents = $product->getData('course_documents')['course_documents'] ?? null;
 
         if (!is_array($documents) || empty($documents)) {
             return;

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Email templates configuration
+ * Đăng ký custom email template để hiển thị trong admin
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+
+    <!--
+        Đăng ký email template cho Course Purchase
+        - id: course_purchase_email - dùng trong Observer
+        - label: Hiển thị trong Admin > Marketing > Email Templates
+        - file: Path đến file template HTML
+        - type: html (hoặc text)
+        - module: Module chứa template
+        - area: frontend (email gửi cho customer)
+    -->
+    <template id="course_purchase_email"
+              label="Course Purchase Confirmation"
+              file="course_purchase.html"
+              type="html"
+              module="Magenest_Movie"
+              area="frontend"/>
+</config>
+
