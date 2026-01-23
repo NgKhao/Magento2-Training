@@ -63,13 +63,13 @@ class AddCustomerTelephoneAttribute implements DataPatchInterface
          */
         $customerSetup->addAttribute(
             Customer::ENTITY,
-            'telephone',
+            'phone_number',
             [
                 // Kiểu dữ liệu trong database: varchar, int, text, datetime...
                 'type' => 'varchar',
 
                 // Label hiển thị trên form
-                'label' => 'Telephone',
+                'label' => 'Phone Number',
 
                 // Loại input: text, textarea, select, multiselect, date...
                 'input' => 'text',
@@ -86,20 +86,26 @@ class AddCustomerTelephoneAttribute implements DataPatchInterface
                 // User có thể tự định nghĩa attribute này
                 'user_defined' => true,
 
-                // Vị trí hiển thị trên form
-                'position' => 100,
-                'sort_order' => 100,
 
                 // Backend Model để validate và xử lý dữ liệu
                 // Đây là class ta vừa tạo ở BƯỚC 1
                 'backend' => \Magenest\Movie\Model\Customer\Attribute\Backend\Telephone::class,
-
-//                // Validate classes - Có thể thêm validate ở frontend
-//                'validate_rules' => json_encode([
-//                    'max_text_length' => 15,  // Cho phép +84 ban đầu
-//                    'min_text_length' => 10
-//                ]),
             ]
+        );
+
+
+//       QUAN TRỌNG: GÁN một attribute vào MỘT attribute set + group cụ thể
+        // Lấy Attribute Set mặc định (thường là ID 1)
+        $attributeSetId = $customerSetup->getDefaultAttributeSetId(Customer::ENTITY);
+
+        // Lấy Attribute Group mặc định (thường là General)
+        $attributeGroupId = $customerSetup->getDefaultAttributeGroupId(Customer::ENTITY, $attributeSetId);
+
+        $customerSetup->addAttributeToSet(
+            Customer::ENTITY,
+            $attributeSetId,
+            $attributeGroupId,
+            'phone_number'
         );
 
         /**
@@ -114,7 +120,7 @@ class AddCustomerTelephoneAttribute implements DataPatchInterface
          * - 'checkout_register' : Form checkout registration
          * - 'adminhtml_checkout' : Form admin create order
          */
-        $attribute = $customerSetup->getEavConfig()->getAttribute(Customer::ENTITY, 'telephone');
+        $attribute = $customerSetup->getEavConfig()->getAttribute(Customer::ENTITY, 'phone_number');
         $attribute->setData('used_in_forms', [
             'customer_account_create',    // Registration form
             'customer_account_edit',      // Customer edit form

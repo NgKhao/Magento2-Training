@@ -39,8 +39,6 @@ class Telephone extends AbstractBackend
     public function beforeSave($object)
     {
         // BƯỚC 1: Lấy attribute code (telephone) và giá trị của nó
-        // $this->getAttribute() - Lấy attribute object (telephone attribute)
-        // getAttributeCode() - Lấy code của attribute ('telephone')
         $attributeCode = $this->getAttribute()->getAttributeCode();
 
         // Lấy giá trị telephone từ customer object
@@ -74,31 +72,7 @@ class Telephone extends AbstractBackend
         // VD: '091-234-5678' -> '0912345678'
         $numbersOnly = preg_replace('/[^0-9]/', '', $value);
 
-        // BƯỚC 6: Validate độ dài không quá 10 số
-        // strlen() - Đếm số ký tự
-        if (strlen($numbersOnly) > 10) {
-            throw new LocalizedException(
-                __('Telephone number must not exceed 10 digits.')
-            );
-        }
-
-        // BƯỚC 7: Validate phải bắt đầu bằng 0
-        // Sau khi convert +84 -> 0, số phải bắt đầu bằng 0
-        if (!str_starts_with($numbersOnly, '0')) {
-            throw new LocalizedException(
-                __('Telephone number must start with 0 or +84.')
-            );
-        }
-
-        // BƯỚC 8: Validate phải đúng 10 chữ số
-        // Số điện thoại Việt Nam có format: 0XXXXXXXXX (10 số)
-        if (strlen($numbersOnly) != 10) {
-            throw new LocalizedException(
-                __('Telephone number must be exactly 10 digits.')
-            );
-        }
-
-        // BƯỚC 9: Set giá trị đã được convert vào object
+        // BƯỚC 6: Set giá trị đã được convert vào object
         // Giá trị này sẽ được lưu vào database
         // VD: User nhập '+84912345678' -> Lưu '0912345678'
         $object->setData($attributeCode, $numbersOnly);
@@ -118,25 +92,20 @@ class Telephone extends AbstractBackend
      */
     public function validate($object)
     {
-        // Lấy giá trị telephone (đã được convert trong beforeSave)
-        $value = $object->getData($this->getAttribute()->getAttributeCode());
+        $attributeCode = $this->getAttribute()->getAttributeCode();
+        $value = $object->getData($attributeCode);
 
-        // Nếu không có giá trị thì valid
         if (empty($value)) {
             return true;
         }
 
-        // Validate format: phải là 10 chữ số và bắt đầu bằng 0
-        // Pattern: ^0\d{9}$
-        // - ^ : Bắt đầu chuỗi
-        // - 0 : Bắt buộc ký tự đầu là 0
-        // - \d{9} : 9 chữ số tiếp theo
-        // - $ : Kết thúc chuỗi
-        // VD: '0912345678' -> match, '091234567' -> not match
-        $pattern = '/^0\d{9}$/';
+        $value = trim($value);
+
+        $pattern = '/^(0\d{9}|\+84\d{9})$/';
+
         if (!preg_match($pattern, $value)) {
             throw new LocalizedException(
-                __('Invalid telephone number format.')
+                __('Telephone number must be in format 0XXXXXXXXX or +84XXXXXXXXX.')
             );
         }
 
