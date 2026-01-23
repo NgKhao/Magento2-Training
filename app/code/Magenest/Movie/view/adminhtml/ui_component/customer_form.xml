@@ -3,6 +3,14 @@
       xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
 
     <fieldset name="customer">
+        <field name="telephone" sortOrder="85" formElement="input">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Telephone</label>
+                <dataScope>telephone</dataScope>
+            </settings>
+        </field>
+
         <field name="avatar" sortOrder="90" formElement="imageUploader">
             <settings>
                 <label translate="true">Avatar</label>

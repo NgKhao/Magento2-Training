@@ -1,0 +1,23 @@
+<?php
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Magento\Customer\Block\Form\Edit $block */
+
+?>
+
+<?php
+$customer = $block->getCustomer();
+?>
+<div class="field telephone">
+    <label for="telephone" class="label">
+        <span><?= $escaper->escapeHtml(__('Telephone')) ?></span>
+    </label>
+    <div class="control">
+        <input type="tel"
+               name="telephone"
+               id="telephone"
+               value="<?= $escaper->escapeHtmlAttr($customer->getCustomAttribute('telephone') ? $customer->getCustomAttribute('telephone')->getValue() : '') ?>"
+               title="<?= $escaper->escapeHtmlAttr(__('Telephone')) ?>"
+               class="input-text"
+               placeholder="<?= $escaper->escapeHtmlAttr(__('0912345678 or +84912345678')) ?>">
+    </div>
+</div>

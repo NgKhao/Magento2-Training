@@ -1,8 +1,21 @@
 <?php
 /**
  * Backend Model để validate và convert số điện thoại
- * - Validate: Tối đa 10 số, bắt đầu bằng 0 hoặc +84
- * - Convert: Tự động chuyển +84 thành 0
+ *
+ * GIẢI THÍCH:
+ * Backend Model trong EAV được gọi tự động bởi Magento khi:
+ * 1. Save entity (customer) - gọi beforeSave()
+ * 2. Load entity - gọi afterLoad() (nếu có)
+ * 3. Validate entity - gọi validate()
+ *
+ * Luồng hoạt động:
+ * User nhập dữ liệu -> Form submit -> Magento nhận data ->
+ * Gọi beforeSave() -> Validate & Convert -> Lưu vào DB
+ *
+ * Yêu cầu bài toán:
+ * - Độ dài không quá 10 chữ số
+ * - Bắt đầu là 0 hoặc +84
+ * - Nếu là +84 tự động chuyển thành 0
  */
 namespace Magenest\Movie\Model\Customer\Attribute\Backend;
 
@@ -12,79 +25,100 @@ use Magento\Framework\Exception\LocalizedException;
 class Telephone extends AbstractBackend
 {
     /**
-     * Phương thức beforeSave sẽ được gọi TRƯỚC KHI lưu customer vào database
-     * Đây là nơi ta xử lý:
-     * 1. Validate dữ liệu
-     * 2. Convert +84 thành 0
+     * beforeSave() - Được gọi TRƯỚC KHI lưu entity vào database
      *
-     * @param \Magento\Framework\DataObject $object
+     * Đây là nơi quan trọng nhất để:
+     * 1. Validate dữ liệu đầu vào
+     * 2. Convert/Transform dữ liệu (VD: +84 -> 0)
+     * 3. Throw exception nếu dữ liệu không hợp lệ
+     *
+     * @param \Magento\Framework\DataObject $object - Customer entity object
      * @return $this
      * @throws LocalizedException
      */
     public function beforeSave($object)
     {
-        // Lấy giá trị của attribute telephone
+        // BƯỚC 1: Lấy attribute code (telephone) và giá trị của nó
+        // $this->getAttribute() - Lấy attribute object (telephone attribute)
+        // getAttributeCode() - Lấy code của attribute ('telephone')
         $attributeCode = $this->getAttribute()->getAttributeCode();
+
+        // Lấy giá trị telephone từ customer object
+        // VD: '0912345678' hoặc '+84912345678'
         $value = $object->getData($attributeCode);
 
-        // Nếu không có giá trị hoặc giá trị rỗng thì không validate
+        // BƯỚC 2: Nếu không có giá trị (null, empty string) thì skip validation
+        // Vì attribute này không bắt buộc (required => false)
         if (empty($value)) {
             return $this;
         }
 
-        // Trim để loại bỏ khoảng trắng thừa
+        // BƯỚC 3: Trim để loại bỏ khoảng trắng đầu/cuối
+        // VD: " 0912345678 " -> "0912345678"
         $value = trim($value);
 
-        // BƯỚC 1: Chuyển đổi +84 thành 0
-        // Nếu số bắt đầu bằng +84, ta thay thế +84 bằng 0
-        if (str_starts_with($value, '+84')) { //check chuỗi $value có bắt đầu bằng +84 không
-            // substr($value, 3) lấy phần còn lại sau +84
-            // Ví dụ: +84912345678 -> 0912345678
+        // BƯỚC 4: Convert +84 thành 0
+        // str_starts_with() - PHP 8 function kiểm tra chuỗi bắt đầu bằng gì
+        // VD: '+84912345678' -> true
+        if (str_starts_with($value, '+84')) {
+            // substr($value, 3) - Lấy chuỗi từ vị trí 3 đến hết
+            // VD: '+84912345678' -> '912345678'
+            // Thêm '0' vào đầu -> '0912345678'
             $value = '0' . substr($value, 3);
         }
 
-        // BƯỚC 2: Loại bỏ tất cả ký tự không phải số để validate
-        // Dùng preg_replace để chỉ giữ lại số
+        // BƯỚC 5: Loại bỏ tất cả ký tự không phải số để validate chính xác
+        // preg_replace('/[^0-9]/', '', $value)
+        // - Pattern: [^0-9] = không phải số 0-9
+        // - Replace với empty string
+        // VD: '091-234-5678' -> '0912345678'
         $numbersOnly = preg_replace('/[^0-9]/', '', $value);
 
-        // BƯỚC 3: Validate độ dài không quá 10 số
+        // BƯỚC 6: Validate độ dài không quá 10 số
+        // strlen() - Đếm số ký tự
         if (strlen($numbersOnly) > 10) {
             throw new LocalizedException(
                 __('Telephone number must not exceed 10 digits.')
             );
         }
 
-        // BƯỚC 4: Validate phải bắt đầu bằng 0
-        // Sau khi convert +84 thành 0, số phải bắt đầu bằng 0
-        if (substr($numbersOnly, 0, 1) !== '0') {
+        // BƯỚC 7: Validate phải bắt đầu bằng 0
+        // Sau khi convert +84 -> 0, số phải bắt đầu bằng 0
+        if (!str_starts_with($numbersOnly, '0')) {
             throw new LocalizedException(
                 __('Telephone number must start with 0 or +84.')
             );
         }
 
-        // BƯỚC 5: Validate phải là số hợp lệ (10 chữ số)
+        // BƯỚC 8: Validate phải đúng 10 chữ số
+        // Số điện thoại Việt Nam có format: 0XXXXXXXXX (10 số)
         if (strlen($numbersOnly) != 10) {
             throw new LocalizedException(
                 __('Telephone number must be exactly 10 digits.')
             );
         }
 
-        // BƯỚC 6: Lưu giá trị đã được convert vào object
+        // BƯỚC 9: Set giá trị đã được convert vào object
         // Giá trị này sẽ được lưu vào database
+        // VD: User nhập '+84912345678' -> Lưu '0912345678'
         $object->setData($attributeCode, $numbersOnly);
 
         return $this;
     }
 
     /**
-     * Phương thức validate được gọi khi validate toàn bộ entity
-     * Ta có thể dùng method này để validate thêm nếu cần
+     * validate() - Được gọi khi validate toàn bộ entity
+     *
+     * Method này là lớp validate thứ 2, được gọi sau beforeSave()
+     * Có thể dùng để validate logic phức tạp hơn
      *
      * @param \Magento\Framework\DataObject $object
      * @return bool
+     * @throws LocalizedException
      */
     public function validate($object)
     {
+        // Lấy giá trị telephone (đã được convert trong beforeSave)
         $value = $object->getData($this->getAttribute()->getAttributeCode());
 
         // Nếu không có giá trị thì valid
@@ -93,6 +127,12 @@ class Telephone extends AbstractBackend
         }
 
         // Validate format: phải là 10 chữ số và bắt đầu bằng 0
+        // Pattern: ^0\d{9}$
+        // - ^ : Bắt đầu chuỗi
+        // - 0 : Bắt buộc ký tự đầu là 0
+        // - \d{9} : 9 chữ số tiếp theo
+        // - $ : Kết thúc chuỗi
+        // VD: '0912345678' -> match, '091234567' -> not match
         $pattern = '/^0\d{9}$/';
         if (!preg_match($pattern, $value)) {
             throw new LocalizedException(
