@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!--
+            Reference đến block "customer_address_edit" của core Magento
+
+            Location: vendor/magento/module-customer/view/frontend/layout/customer_address_form.xml
+            Class: Magento\Customer\Block\Address\Edit
+            Template: Magento_Customer::address/edit.phtml
+        -->
+        <referenceBlock name="customer_address_edit">
+            <!--
+                BƯỚC 1: Override template
+
+                Template mới đã copy từ core và thêm call:
+                <?= $block->getChildHtml('customer_address_vn_region') ?>
+
+                Vị trí call: Sau field Zip/Postal Code
+            -->
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Magenest_Movie::address/edit.phtml</argument>
+            </action>
+
+            <!--
+                BƯỚC 2: Khai báo child block
+
+                GIẢI THÍCH:
+                - name: "customer_address_vn_region" - tên block, dùng trong getChildHtml()
+                - class: "Magento\Framework\View\Element\Template" - generic template block
+                - template: "Magenest_Movie::address/vn_region.phtml" - render field vn_region
+
+                CÁCH HOẠT ĐỘNG:
+                1. Parent template gọi: $block->getChildHtml('customer_address_vn_region')
+                2. Magento render child block này
+                3. Child block có method getParentBlock() để access parent
+                4. Từ parent lấy: getAddress(), getAttributeData()
+                5. Render field vn_region với data từ address
+            -->
+            <block class="Magento\Framework\View\Element\Template"
+                   name="customer_address_vn_region"
+                   template="Magenest_Movie::address/vn_region.phtml"/>
+        </referenceBlock>
+    </body>
+</page>
+

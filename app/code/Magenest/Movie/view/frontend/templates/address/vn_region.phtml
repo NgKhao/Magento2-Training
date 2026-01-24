@@ -1,0 +1,70 @@
+<?php
+/**
+ * Template để render field Vietnam Region trong Customer Address Form
+ *
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Magento\Framework\View\Element\Template $block
+ */
+?>
+
+<?php
+/**
+ * BƯỚC 1: Lấy Address Object từ Parent Block
+ *
+ * Logic:
+ * - getParentBlock(): Trả về parent block (customer_address_edit)
+ * - getAddress(): Trả về \Magento\Customer\Api\Data\AddressInterface
+ *
+ * Note: Phải lấy từ parent vì child block không có address data
+ */
+$address = $block->getParentBlock()->getAddress();
+
+/**
+ * BƯỚC 2: Lấy giá trị hiện tại của vn_region
+ *
+ * Logic:
+ * - getCustomAttribute('vn_region') trả về AttributeValue object hoặc null
+ * - Nếu có attribute, get value (1, 2, hoặc 3)
+ * - Nếu không có (address mới), return empty string
+ */
+$vnRegionValue = '';
+if ($address && $address->getCustomAttribute('vn_region')) {
+    $vnRegionValue = $address->getCustomAttribute('vn_region')->getValue();
+}
+
+/**
+ * BƯỚC 3: Định nghĩa Options cứng
+ *
+ * Logic:
+ * - Hardcode options thay vì load từ Source Model
+ * - Đơn giản và hiệu quả cho số lượng options ít (3 options)
+ * - Giữ sync với Source Model: \Magenest\Movie\Model\Config\Source\VnRegion
+ */
+$vnRegionOptions = [
+    ['value' => '', 'label' => __('-- Please Select --')],
+    ['value' => '1', 'label' => __('Miền Bắc')],
+    ['value' => '2', 'label' => __('Miền Trung')],
+    ['value' => '3', 'label' => __('Miền Nam')]
+];
+?>
+<div class="field vn_region">
+    <label for="vn_region" class="label">
+        <span><?= $escaper->escapeHtml(__('Vietnam Region')) ?></span>
+    </label>
+    <div class="control">
+        <select name="vn_region"
+                id="vn_region"
+                title="<?= $escaper->escapeHtmlAttr(__('Vietnam Region')) ?>"
+                class="input-select">
+            <?php foreach ($vnRegionOptions as $option): ?>
+                <option value="<?= $escaper->escapeHtmlAttr($option['value']) ?>"
+                    <?php if ($vnRegionValue == $option['value']): ?>
+                        selected="selected"
+                    <?php endif; ?>>
+                    <?= $escaper->escapeHtml($option['label']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+</div>
+
