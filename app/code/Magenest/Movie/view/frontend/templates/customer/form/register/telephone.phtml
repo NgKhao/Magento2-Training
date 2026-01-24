@@ -4,14 +4,13 @@
 ?>
 
 <div class="field telephone">
-    <label for="telephone" class="label">
-        <span><?= $escaper->escapeHtml(__('Telephone')) ?></span>
+    <label for="phone_number" class="label">
+        <span><?= $escaper->escapeHtml(__('Phone Number')) ?></span>
     </label>
     <div class="control">
         <input type="tel"
-               name="telephone"
-               id="telephone"
-               value="<?= $escaper->escapeHtmlAttr($block->getFormData()?->getTelephone() ?? '') ?>"               title="<?= $escaper->escapeHtmlAttr(__('Telephone')) ?>"
+               name="phone_number"
+               id="phone_number"
                class="input-text"
                placeholder="<?= $escaper->escapeHtmlAttr(__('0912345678 or +84912345678')) ?>">
     </div>

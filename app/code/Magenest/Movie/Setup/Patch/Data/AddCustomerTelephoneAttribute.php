@@ -86,10 +86,6 @@ class AddCustomerTelephoneAttribute implements DataPatchInterface
                 // User có thể tự định nghĩa attribute này
                 'user_defined' => true,
 
-
-                // Backend Model để validate và xử lý dữ liệu
-                // Đây là class ta vừa tạo ở BƯỚC 1
-                'backend' => \Magenest\Movie\Model\Customer\Attribute\Backend\Telephone::class,
             ]
         );
 

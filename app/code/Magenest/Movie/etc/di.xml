@@ -12,4 +12,35 @@
             </argument>
         </arguments>
     </type>
+
+
+    <!--
+        Plugin: Thêm vn_region vào Address Renderer
+
+        GIẢI THÍCH:
+        - Target class: Magento\Customer\Block\Address\Renderer\DefaultRenderer
+        - Plugin class: Magenest\Movie\Plugin\AddVnRegionToAddressRenderer
+        - Type: after (chạy sau khi DefaultRenderer render xong)
+        - Method: renderArray (method render address thành array of lines)
+
+        CÔNG DỤNG:
+        - Hiển thị "Vietnam Region: Miền Bắc/Trung/Nam" trong address
+        - Áp dụng cho: Checkout, Order View, Email, PDF...
+    -->
+<!--    <type name="Magento\Customer\Block\Address\Renderer\DefaultRenderer">-->
+<!--        <plugin name="magenest_movie_add_vn_region_to_address_renderer"-->
+<!--                type="Magenest\Movie\Plugin\AddVnRegionToAddressRenderer"-->
+<!--                sortOrder="10"/>-->
+<!--    </type>-->
+
+    <!--
+        Plugin: Validate và normalize phone_number trước khi save Customer
+        - Target class: Magento\Customer\Api\CustomerRepositoryInterface
+          (Interface được sử dụng để save customer)
+    -->
+    <type name="Magento\Customer\Api\CustomerRepositoryInterface">
+        <plugin name="magenest_movie_validate_phone_number"
+                type="Magenest\Movie\Plugin\CustomerTelephonePlugin"
+                sortOrder="10"/>
+    </type>
 </config>
