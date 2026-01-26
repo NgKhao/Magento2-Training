@@ -18,4 +18,16 @@
                 type="Magenest\Movie\Plugin\CustomerTelephonePlugin"
                 sortOrder="10"/>
     </type>
+
+    <!--
+        ====================================================================
+        PLUGIN: Kiểm tra URL Rewrite trùng lặp trước khi save Blog
+        ====================================================================
+    -->
+    <type name="Magenest\Movie\Model\ResourceModel\Blog">
+        <plugin name="magenest_movie_validate_blog_url_rewrite"
+                type="Magenest\Movie\Plugin\BlogPlugin"
+                sortOrder="10"/>
+    </type>
+
 </config>
