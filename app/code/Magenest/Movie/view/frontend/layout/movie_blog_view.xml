@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <!--
+                Block: Blog View
+                - name: Tên unique của block (dùng để reference)
+                - class: PHP class xử lý logic
+                - template: PHTML template file để render
+            -->
+            <block class="Magenest\Movie\Block\Blog\View"
+                   name="blog.view"
+                   template="Magenest_Movie::blog/view.phtml"/>
+        </referenceContainer>
+        <referenceBlock name="breadcrumbs">
+            <!-- Có thể customize breadcrumbs ở đây -->
+        </referenceBlock>
+    </body>
+</page>
+
