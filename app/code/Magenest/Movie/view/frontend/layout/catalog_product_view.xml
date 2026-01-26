@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Layout cho Product Detail Page
+ *
+ * HANDLE: catalog_product_view
+ * - Áp dụng cho tất cả product detail pages
+ *
+ * MỤC ĐÍCH: Thêm B2B Banner vào product page
+ */
+-->
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!--
+        REFERENCECONTAINER cho Product Page
+
+        name="product.info.main": Container chính của product info
+        - Chứa product name, price, add to cart button
+        - Nằm bên phải product image (trong layout 2 columns)
+
+        CÁC CONTAINER KHÁC có thể dùng:
+        - "content": Toàn bộ content area
+        - "product.info.media": Phần product image (bên trái)
+        - "product.info.details": Phần tabs (Description, Reviews, ...)
+        - "page.top": Phía trên page
+        -->
+        <referenceContainer name="content">
+            <block
+                class="Magenest\Movie\Block\B2bBanner"
+                name="magenest.movie.b2b.banner.product"
+                template="Magenest_Movie::b2b_banner.phtml"
+                cacheable="false"
+                before="-">
+            </block>
+        </referenceContainer>
+    </body>
+</page>
+

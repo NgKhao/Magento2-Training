@@ -27,5 +27,29 @@
                 sortOrder="100"
                 disabled="false"/>
     </type>
+
+    <!--
+        Plugin: Thêm attribute is_b2b vào Customer Section (Private Content)
+
+        Target: Magento\Customer\CustomerData\Customer
+        - Class này generate dữ liệu cho customer section
+        - Method getSectionData(): Return array data lưu vào localStorage
+
+        Plugin: afterGetSectionData()
+        - Intercept sau khi getSectionData() chạy xong
+        - Thêm field 'is_b2b' vào array result
+        - JavaScript có thể đọc customerData.get('customer')().is_b2b
+
+        WHY?
+        - Mặc định Magento chỉ load các attribute cơ bản (firstname, lastname, ...)
+        - Custom attribute (is_b2b) KHÔNG tự động có trong section data
+        - Phải dùng plugin để thêm vào
+    -->
+<!--    <type name="Magento\Customer\CustomerData\Customer">-->
+<!--        <plugin name="add_is_b2b_to_customer_section"-->
+<!--                type="Magenest\Movie\Plugin\CustomerData\AddIsB2bToCustomerSection"-->
+<!--                sortOrder="10"-->
+<!--                disabled="false"/>-->
+<!--    </type>-->
 </config>
 

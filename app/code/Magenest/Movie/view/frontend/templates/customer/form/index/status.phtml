@@ -1,0 +1,13 @@
+<?php
+/** @var \Magento\Customer\Block\Account\Dashboard\Info $block */
+$customer = $block->getCustomer();
+?>
+<div class="box box-information">
+    <strong class="box-title">
+        <span><?= $block->escapeHtml(__('Loại tài khoản')) ?></span>
+    </strong>
+    <div class="box-content">
+        <p><?= $block->escapeHtml((boolean)$customer->getCustomAttribute('is_b2b')) ?
+                __('Thành viên B2B') : __('Thành viên thường')   ?></p>
+    </div>
+</div>

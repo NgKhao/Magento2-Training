@@ -1,0 +1,32 @@
+<?php
+/**
+ * Template hiển thị banner cho B2B Customer
+ *
+ * @var $block Magenest\Movie\Block\B2bBanner - Block instance
+ *
+ * LOGIC:
+ * - Block đã check isB2bCustomer() trong _toHtml()
+ * - Nếu file này được render -> chắc chắn customer là B2B
+ * - Chỉ cần hiển thị banner
+ */
+?>
+
+<?php
+$bannerUrl = $block->getBannerImageUrl();
+$bannerTitle = $block->getBannerTitle();
+?>
+
+<?php
+?>
+<div class="b2b-banner-container" style="margin: 20px 0; text-align: center;">
+    <div class="b2b-banner-wrapper">
+        <img
+            src="<?= $block->escapeUrl($bannerUrl) ?>"
+            alt="<?= $block->escapeHtmlAttr($bannerTitle) ?>"
+            title="<?= $block->escapeHtmlAttr($bannerTitle) ?>"
+            class="b2b-banner-image"
+            style="max-width: 100%; height: auto; display: block; margin: 0 auto;"
+        />
+    </div>
+</div>
+
