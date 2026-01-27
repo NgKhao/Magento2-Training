@@ -99,41 +99,68 @@ class BlogRepository implements BlogRepositoryInterface
     /**
      * @inheritDoc
      *
-     * Examples:
-     * POST /rest/V1/magenest/blogs
-     *   Body: {"blog": {"title": "New", ...}}
-     *   → save($blog, null)
-     *   → $blog->getId() = null → CREATE
-     *
-     * PUT /rest/V1/magenest/blogs/4
-     *   Body: {"blog": {"title": "Updated", ...}}
-     *   → save($blog, 4)
-     *   → Force $blog->setId(4) → UPDATE blog ID 4
-     */
+     * Trong save blog.
+     * còn trong save() check nếu có id thì là update và dùng addData để update những trường cần thiết,
+     * cuối cùng cần reload lại để lấy các trường tự động như created_at, updated_at
+ */
     public function save(BlogInterface $blog, $blogId = null)
     {
         try {
-            // Bước 1: Nếu có $blogId từ URL (PUT request), force set vào blog
-            // PUT /rest/V1/magenest/blogs/4 → $blogId = 4
-            if ($blogId !== null) {
-                // Load blog từ database
-                $this->blogResource->load($blog, $blogId);
+            // Validate ID conflict giữa URL và body
+            if ($blogId !== null && $blog->getId() && $blogId != $blog->getId()) {
+                throw new CouldNotSaveException(
+                    __('Blog ID in URL (%1) does not match ID in request body (%2)',
+                        $blogId,
+                        $blog->getId()
+                    )
+                );
             }
 
-            // Bước 2: Save blog to database
-            // Plugin BlogPlugin::beforeSave() sẽ tự động chạy để validate URL
-            // ResourceModel sẽ tự động:
-            // - INSERT nếu ID null hoặc ID không tồn tại
-            // - UPDATE nếu ID tồn tại
+            // Xác định ID để save
+            $id = $blogId ?? $blog->getId();
+
+            // Nếu có ID → UPDATE mode
+            if ($id) {
+                // Bước 1: Load existing blog từ database
+                $existingBlog = $this->blogFactory->create();
+                $this->blogResource->load($existingBlog, $id);
+
+                // Bước 2: Validate blog tồn tại
+                if (!$existingBlog->getId()) {
+                    throw new NoSuchEntityException(
+                        __('Blog with id "%1" does not exist.', $id)
+                    );
+                }
+
+                // Bước 3: Merge data từ request vào existing blog
+                // addData() sẽ chỉ update fields có trong request
+                // Các fields không có trong request được giữ nguyên (created_at, etc)
+                $existingBlog->addData($blog->getData());
+
+                // Save existing blog (đã merge data)
+                $this->blogResource->save($existingBlog);
+
+                // Return existing blog (có đầy đủ data từ DB)
+                return $existingBlog;
+            }
+
+            // Nếu KHÔNG có ID → CREATE mode
+            // Save blog mới (INSERT)
             $this->blogResource->save($blog);
+            // QUAN TRỌNG: Reload blog từ DB để lấy created_at và updated_at
+            // Object $blog chưa có giá trị mới → phải reload
+            $this->blogResource->load($blog, $blog->getId());
+
+            return $blog;
+
+        } catch (NoSuchEntityException $e) {
+            throw $e;
         } catch (\Exception $exception) {
             throw new CouldNotSaveException(
                 __('Could not save the blog: %1', $exception->getMessage()),
                 $exception
             );
         }
-
-        return $blog;
     }
 
     /**
