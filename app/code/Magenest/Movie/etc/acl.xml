@@ -15,6 +15,28 @@
                 </resource>
                 <resource id="Magenest_Movie::movie" title="Magenest Movie">
                     <resource id="Magenest_Movie::dashboard" title="Dashboard"/>
+
+                    <!--
+                        ACL (Access Control List) định nghĩa permissions.
+                        Structure:
+                        - Magenest_Movie::blog = Parent resource (Blog management)
+                          - ::blog_view = View blog (GET)
+                          - ::blog_save = Create/Update blog (POST/PUT)
+                          - ::blog_delete = Delete blog (DELETE)
+                        Usage:
+                        - Admin user được assign roles
+                        - Role có ACL permissions
+                        - API check permission trước khi execute
+
+                        Admin UI:
+                        System → Permissions → User Roles → Role Resources
+                        → Magenest Movie → Blog Management
+                    -->
+                    <resource id="Magenest_Movie::blog" title="Blog Management" sortOrder="10">
+                        <resource id="Magenest_Movie::blog_view" title="View Blog" sortOrder="10"/>
+                        <resource id="Magenest_Movie::blog_save" title="Save Blog" sortOrder="20"/>
+                        <resource id="Magenest_Movie::blog_delete" title="Delete Blog" sortOrder="30"/>
+                    </resource>
                 </resource>
             </resource>
         </resources>

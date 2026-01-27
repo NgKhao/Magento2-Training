@@ -52,12 +52,41 @@
             <argument name="routerList" xsi:type="array">
                 <item name="magenest_blog_router" xsi:type="array">
                     <item name="class" xsi:type="string">Magenest\Movie\Controller\Router\BlogRouter</item>
+<!--                    mở router-->
                     <item name="disable" xsi:type="boolean">false</item>
                     <item name="sortOrder" xsi:type="string">35</item>
                 </item>
             </argument>
         </arguments>
     </type>
+
+    <!--
+        ====================================================================
+        API REPOSITORY: Preference Binding
+        ====================================================================
+        Preference binding map Interface → Implementation class
+
+        1. BlogInterface → Blog Model
+           - Khi inject BlogInterface, Magento sẽ inject Blog Model
+
+        2. BlogRepositoryInterface → BlogRepository
+           - Khi inject BlogRepositoryInterface, Magento inject BlogRepository
+
+        3. BlogSearchResultsInterface → BlogSearchResults
+           - Khi tạo SearchResults, Magento dùng BlogSearchResults class
+    -->
+
+    <!-- Bind Blog Interface to Blog Model -->
+    <preference for="Magenest\Movie\Api\Data\BlogInterface"
+                type="Magenest\Movie\Model\Blog"/>
+
+    <!-- Bind Blog Repository Interface to Blog Repository -->
+    <preference for="Magenest\Movie\Api\BlogRepositoryInterface"
+                type="Magenest\Movie\Model\BlogRepository"/>
+
+    <!-- Bind Blog Search Results Interface to Blog Search Results -->
+    <preference for="Magenest\Movie\Api\Data\BlogSearchResultsInterface"
+                type="Magenest\Movie\Model\BlogSearchResults"/>
 
 
 </config>

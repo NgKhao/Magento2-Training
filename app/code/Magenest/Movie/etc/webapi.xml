@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<!--
+    Web API Configuration
+
+    =============================================================================
+    THẦY GIẢI THÍCH: webapi.xml
+    =============================================================================
+
+    File này định nghĩa REST API endpoints.
+
+    Structure của mỗi route:
+    - <route>: URL pattern và HTTP method
+    - <service>: Interface::method sẽ được gọi
+    - <resources>: Permission (ACL resource hoặc anonymous)
+
+
+    URL Pattern:
+    /V1/magenest/blogs/:blogId
+    - :blogId = path parameter, map to method param
+
+    =============================================================================
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+    <!--
+        GET: Get blog by ID
+        Endpoint: GET /rest/V1/magenest/blogs/:blogId
+        Example: GET /rest/V1/magenest/blogs/1
+
+        Response:
+        {
+          "id": 1,
+          "author_id": 1,
+          "title": "My Blog",
+          "content": "Blog content...",
+          ...
+        }
+    -->
+    <route url="V1/magenest/blogs/:blogId" method="GET">
+        <service class="Magenest\Movie\Api\BlogRepositoryInterface" method="getById"/>
+        <resources>
+            <resource ref="anonymous"/>
+            <!--
+                - anonymous: Cho phép truy cập không cần authentication
+                - Nếu cần auth: <resource ref="Magenest_Movie::blog_view"/>
+            -->
+        </resources>
+    </route>
+
+    <!--
+
+        Endpoint: GET /rest/V1/magenest/blogs
+
+        Query parameters:
+        - searchCriteria[filter_groups][0][filters][0][field]=status
+        - searchCriteria[filter_groups][0][filters][0][value]=1
+        - searchCriteria[pageSize]=10
+        - searchCriteria[currentPage]=1
+        - searchCriteria[sortOrders][0][field]=created_at
+        - searchCriteria[sortOrders][0][direction]=DESC
+
+        Response:
+        {
+          "items": [blog1, blog2, ...],
+          "search_criteria": {...},
+          "total_count": 100
+        }
+    -->
+    <route url="V1/magenest/blogs" method="GET">
+        <service class="Magenest\Movie\Api\BlogRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <!--
+
+        Endpoint: POST /magenest/blogs
+
+        Request Body:
+        {
+          "blog": {
+            "author_id": 1,
+            "title": "New Blog",
+            "description": "Description",
+            "content": "Content",
+            "url_rewrite": "new-blog.html",
+            "status": 1
+          }
+        }
+
+        Response: Created blog object with ID
+        {
+          "id": 10,
+          "author_id": 1,
+          "title": "New Blog",
+          ...
+        }
+    -->
+    <route url="V1/magenest/blogs" method="POST">
+        <service class="Magenest\Movie\Api\BlogRepositoryInterface" method="save"/>
+        <resources>
+<!--            <resource ref="Magenest_Movie::blog_save"/>-->
+            <resource ref="anonymous"/>
+            <!--
+                Thầy note:
+                - Cần permission để create blog
+                - Admin user hoặc user có ACL permission
+            -->
+        </resources>
+    </route>
+
+    <!--
+
+        Endpoint: PUT /rest/V1/magenest/blogs/:blogId
+        Example: PUT /rest/V1/magenest/blogs/1
+
+        Request Body:
+        {
+          "blog": {
+            "id": 1,
+            "title": "Updated Title",
+            "content": "Updated content"
+          }
+        }
+
+        Response: Updated blog object
+    -->
+    <route url="V1/magenest/blogs/:blogId" method="PUT">
+        <service class="Magenest\Movie\Api\BlogRepositoryInterface" method="save"/>
+        <resources>
+<!--            <resource ref="Magenest_Movie::blog_save"/>-->
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <!--
+
+        Endpoint: DELETE /rest/V1/magenest/blogs/:blogId
+        Example: DELETE /rest/V1/magenest/blogs/1
+
+        Response: true (boolean)
+    -->
+    <route url="V1/magenest/blogs/:blogId" method="DELETE">
+        <service class="Magenest\Movie\Api\BlogRepositoryInterface" method="deleteById"/>
+        <resources>
+            <resource ref="anonymous"/>
+<!--            <resource ref="Magenest_Movie::blog_delete"/>-->
+            <!--
+                - Cần permission để delete blog
+                - Chỉ admin hoặc authorized user
+            -->
+        </resources>
+    </route>
+
+</routes>
+
