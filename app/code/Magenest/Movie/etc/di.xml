@@ -30,35 +30,6 @@
                 sortOrder="10"/>
     </type>
 
-    <!--
-        ====================================================================
-        CUSTOM ROUTER: Xử lý Blog URL Rewrite
-        ====================================================================
-        1. RouterList là danh sách các Router trong Magento
-           - Magento check Router theo thứ tự trong list
-           - Router nào match trước sẽ xử lý request
-        3. Flow:
-           User request → Magento RouterList → Check từng Router
-           → BlogRouter match? Yes → Forward to blog/view
-           → BlogRouter match? No → Next Router
-
-        4. Tại sao cần Custom Router?
-           - URL gốc: movie/blog/view/id/1 (không SEO friendly)
-           - URL mới: blog1.html (SEO friendly)
-           - Router giúp map: blog1.html → movie/blog/view/id/1
-    -->
-    <type name="Magento\Framework\App\RouterList">
-        <arguments>
-            <argument name="routerList" xsi:type="array">
-                <item name="magenest_blog_router" xsi:type="array">
-                    <item name="class" xsi:type="string">Magenest\Movie\Controller\Router\BlogRouter</item>
-<!--                    mở router-->
-                    <item name="disable" xsi:type="boolean">false</item>
-                    <item name="sortOrder" xsi:type="string">35</item>
-                </item>
-            </argument>
-        </arguments>
-    </type>
 
     <!--
         ====================================================================

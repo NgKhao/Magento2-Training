@@ -37,10 +37,6 @@ if (!$blog): ?>
 
         <!-- Blog Header -->
         <div class="blog-header">
-            <h1 class="blog-title">
-                <?= $block->escapeHtml($blog->getTitle()) ?>
-            </h1>
-
             <div class="blog-meta">
                 <!-- Author -->
                 <span class="blog-author">
@@ -59,14 +55,6 @@ if (!$blog): ?>
                     <span class="blog-updated">
                         <strong><?= $block->escapeHtml(__('Updated:')) ?></strong>
                         <?= $block->escapeHtml($block->formatDate($blog->getUpdatedAt())) ?>
-                    </span>
-                <?php endif; ?>
-
-                <!-- Status (chỉ hiển thị cho admin) -->
-                <?php if ($block->isAdmin()): // Cần implement method isAdmin() ?>
-                    <span class="blog-status">
-                        <strong><?= $block->escapeHtml(__('Status:')) ?></strong>
-                        <?= $block->escapeHtml($block->getStatusLabel()) ?>
                     </span>
                 <?php endif; ?>
             </div>
