@@ -1,0 +1,11 @@
+<div class="color-switcher-container" style="float: right; margin-left: 15px; display: flex; align-items: center;">
+    <label for="bg-changer" style="margin-right: 5px; font-weight: bold;">Theme Color:</label>
+
+    <select id="bg-changer" class="admin__control-select"
+            data-bind="options: availableColors,
+                       optionsText: 'label',
+                       optionsValue: 'value',
+                       value: selectedColor,"
+                       >
+    </select>
+</div>

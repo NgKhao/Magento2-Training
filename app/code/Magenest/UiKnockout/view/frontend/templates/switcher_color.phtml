@@ -1,0 +1,26 @@
+<?php
+/** @var  \Magenest\UiKnockout\ViewModel\ColorConfig $viewModel
+ * @var \Magento\Framework\View\Element\Template $block
+ * */
+$viewModel = $block->getViewModel();
+$colorOptions = $viewModel->getColors();
+?>
+<div id="magenest-color-switcher" data-bind="scope: 'colorSwitcher'">
+    </div>
+
+<script type="text/x-magento-init">
+{
+    "#magenest-color-switcher": {
+        "Magento_Ui/js/core/app": {
+            "components": {
+                "colorSwitcher": {
+                    "component": "Magenest_UiKnockout/js/switcher-color",
+                    "template": "Magenest_UiKnockout/switcher-color",
+                    "availableColors": <?= /* @noEscape */ $colorOptions ?>
+                }
+            }
+        }
+    }
+}
+</script>
+

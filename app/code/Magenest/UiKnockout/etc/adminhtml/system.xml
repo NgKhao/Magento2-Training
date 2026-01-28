@@ -23,5 +23,19 @@
                 </field>
             </group>
         </section>
+
+        <section id="color_ranges" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Color Ranges</label>
+            <tab>magenest</tab>
+            <resource>Magenest_UiKnockout::config</resource>
+            <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Color Ranges</label>
+                <field id="color_options" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Color Options</label>
+                    <frontend_model>Magenest\UiKnockout\Block\Adminhtml\ColorRanges</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
+        </section>
     </system>
 </config>
