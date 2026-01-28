@@ -1,0 +1,31 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magenest\UiKnockout\ViewModel\PopupConfig $viewModel */
+
+// lấy view model từ block đã khai báo trong layout XML
+$viewModel = $block->getViewModel();
+// lấy cấu hình JSON từ view model
+$jsonConfig = $viewModel->getJsonConfig();
+?>
+
+<!--data-bind tín hiệu gửi dữ liệu cấu hình JSON đến KnockoutJS-->
+<div id="promo-popup-component-wrapper" data-bind="scope: 'promoPopup'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+
+<!--Khai báo Magento UI component để khởi tạo KnockoutJS với cấu hình đã lấy-->
+<script type="text/x-magento-init">
+{
+    "#promo-popup-component-wrapper": {
+        "Magento_Ui/js/core/app": {
+            "components": {
+                "promoPopup": {
+                   "component": "Magenest_UiKnockout/js/promo-popup",
+                    "template": "Magenest_UiKnockout/promo-popup-template",
+                    "configData": <?= /* @noEscape */ $jsonConfig ?>
+                }
+            }
+        }
+    }
+}
+</script>
