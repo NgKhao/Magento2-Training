@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.info.main">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="delivery.options.wrapper"
+                   template="Magenest_UiKnockout::delivery_time.phtml"
+                   before="product.info.addtocart">
+                <arguments>
+                    <!--
+                        Argument jsLayout: Cấu hình cho Magento UI Component
+                        Cấu trúc này sẽ được truyền vào $block->getJsLayout()
+                    -->
+                    <argument name="jsLayout" xsi:type="array">
+                        <item name="components" xsi:type="array">
+                            <!-- Component delivery-options -->
+                            <item name="delivery-options" xsi:type="array">
+                                <!-- Path đến file JS Component -->
+                                <item name="component" xsi:type="string">Magenest_UiKnockout/js/delivery-options</item>
+                                <!-- Path đến file HTML Template -->
+                                <item name="template" xsi:type="string">Magenest_UiKnockout/delivery-template</item>
+                                <!-- Tên của input ẩn sẽ được update
+                                 options[4] là id của thuộc tính product custom option trong Magento khi f12 để xem
+                                -->
+                                <item name="targetInputName" xsi:type="string">options[4]</item>
+                            </item>
+
+                        </item>
+                    </argument>
+                </arguments>
+            </block>
+
+        </referenceBlock>
+    </body>
+</page>

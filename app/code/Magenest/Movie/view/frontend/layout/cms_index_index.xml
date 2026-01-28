@@ -4,7 +4,6 @@
     <body>
         <referenceContainer name="content">
             <!--
-
             - before/after: Điều khiển vị trí của block
               before="-": Đặt block ở vị trí đầu tiên trong container
               after="-": Đặt block ở vị trí cuối cùng
