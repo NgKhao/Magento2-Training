@@ -34,7 +34,7 @@ class Thumbnail extends Column
             foreach ($dataSource['data']['items'] as & $item) {
                 if (isset($item['image'])) {
                     // Tạo URL đầy đủ cho ảnh thumbnail bằng cách nối với đường dẫn media
-                    $url = $this->urlBuilder->getUrl(['_type' => \Magento\Framework\UrlInterface::URL_TYPE_MEDIA]) . 'banner/images/' . $item['image'];
+                    $url = $this->urlBuilder->getBaseUrl(['_type' => UrlInterface::URL_TYPE_MEDIA]) . 'banner/images/' . $item['image'];
                     $item['image_src'] = $url;
                     $item['image_link'] = $url;
                     $item['image_orig_src'] = $url;

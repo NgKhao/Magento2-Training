@@ -42,8 +42,8 @@ class Save extends Action
                         try {
                             $this->imageUploader->moveFileFromTmp($imageName);
                         } catch (\Exception $e) {
-                            $this->messageManager->addErrorMessage(__('Không thể lưu ảnh: %1', $e->getMessage()));
-                            return $resultRedirect->setPath('*/*/edit', ['banner_id' => $this->getRequest()->getParam('banner_id')]);
+//                            $this->messageManager->addErrorMessage(__('Không thể lưu ảnh: %1', $e->getMessage()));
+//                            return $resultRedirect->setPath('*/*/edit', ['banner_id' => $this->getRequest()->getParam('banner_id')]);
                         }
 
                     }
@@ -66,6 +66,12 @@ class Save extends Action
             if ($id) {
                 $model->load($id);
             }
+
+
+            if (isset($data['banner_id']) && $data['banner_id'] === '') {
+                unset($data['banner_id']);
+            }
+
             $model->setData($data);
             try {
                 $model->save();
