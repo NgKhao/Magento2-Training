@@ -33,16 +33,22 @@ class Save extends Action
             // Xử lý hình ảnh
             // [image] =>Array ( [0] => Array ( [name] => abc.jpg, [tmp_name] => ... ) )
             if (isset($data['image']) && is_array($data['image'])) {
-                // Lấy tên file ảnh từ mảng
-                $data['image'] = $data['image'][0]['name'];
-                // Nếu có 'tmp_name', nghĩa là ảnh mới upload -> Cần di chuyển từ TMP sang chính thức
-                if (isset($data['image'][0]['tmp_name'])) {
-                    try {
-                        $this->imageUploader->moveFileFromTmp($data['image']);
-                    } catch (\Exception $e) {
-                        $this->messageManager->addErrorMessage(__('Không thể lưu ảnh: %1', $e->getMessage()));
-                        return $resultRedirect->setPath('*/*/edit', ['banner_id' => $this->getRequest()->getParam('banner_id')]);
+                // Kiểm tra xem có tên file không (tránh trường hợp mảng rỗng)
+                if (!empty($data['image'][0]['name'])) {
+                    // Lấy tên file ảnh từ mảng
+                    $imageName = $data['image'][0]['name'];
+                    // Nếu có 'tmp_name', nghĩa là ảnh mới upload -> Cần di chuyển từ TMP sang chính thức
+                    if (isset($data['image'][0]['tmp_name'])) {
+                        try {
+                            $this->imageUploader->moveFileFromTmp($imageName);
+                        } catch (\Exception $e) {
+                            $this->messageManager->addErrorMessage(__('Không thể lưu ảnh: %1', $e->getMessage()));
+                            return $resultRedirect->setPath('*/*/edit', ['banner_id' => $this->getRequest()->getParam('banner_id')]);
+                        }
+
                     }
+                    // Cuối cùng: Gán lại chuỗi tên file vào data để lưu xuống DB
+                    $data['image'] = $imageName;
                 }
                 else
                 {
@@ -80,6 +86,6 @@ class Save extends Action
 
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Magenest_UiKnockout::ui_knockout');
+        return $this->_authorization->isAllowed('Magenest_UiKnockou t::ui_knockout');
     }
 }

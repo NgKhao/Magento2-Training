@@ -3,27 +3,33 @@ namespace Magenest\UiKnockout\Controller\Adminhtml\Index;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
-use Magento\Framework\View\Result\PageFactory;
+use Magento\Backend\Model\View\Result\ForwardFactory;
 
 class NewAction extends Action
 {
+    /**
+     * @var ForwardFactory
+     */
+    protected $resultForwardFactory;
 
-    protected $resultPageFactory;
-
-    public function __construct(Context $context, PageFactory $resultPageFactory)
+    public function __construct(Context $context, ForwardFactory $resultForwardFactory)
     {
-        $this->resultPageFactory = $resultPageFactory;
+        $this->resultForwardFactory = $resultForwardFactory;
         parent::__construct($context);
     }
 
     public function execute()
     {
-        $resultPage = $this->resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->prepend(__('New Banner'));
-        return $resultPage;
+        /** @var \Magento\Backend\Model\View\Result\Forward $resultForward */
+        $resultForward = $this->resultForwardFactory->create();
+
+        // LOGIC QUAN TRỌNG:
+        // Chuyển tiếp request này sang action 'edit'.
+        // Nghĩa là: Khi user vào 'banner/index/new', hệ thống sẽ tự chạy code của 'banner/index/edit'
+        return $resultForward->forward('edit');
     }
 
-    public function _isAllowed()
+    protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magenest_UiKnockout::banner');
     }
