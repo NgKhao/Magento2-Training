@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-
+instance" xsi:noNamespaceSchemaLocation=
+    "urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add
+            id="Magenest_UiKnockout::ui_knockout"
+            title="Banner"
+            module="Magenest_UiKnockout"
+            sortOrder="100"
+            resource="Magenest_UiKnockout::ui_knockout"
+        />
+        <add
+            id="Magenest_UiKnockout::banner"
+            title="Banner"
+            module="Magenest_UiKnockout"
+            sortOrder="100"
+            parent="Magenest_UiKnockout::ui_knockout"
+            action="banner/index/index"
+            resource="Magenest_UiKnockout::ui_knockout"
+        />
+
+    </menu>
+</config>

@@ -6,7 +6,8 @@ $viewModel = $block->getViewModel();
 $colorOptions = $viewModel->getColors();
 ?>
 <div id="magenest-color-switcher" data-bind="scope: 'colorSwitcher'">
-    </div>
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
 
 <script type="text/x-magento-init">
 {
