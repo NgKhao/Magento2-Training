@@ -1,0 +1,63 @@
+<?php
+/** @var  \Magenest\UiKnockout\ViewModel\BannerDisplay $viewModel
+ *@var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ * */
+$viewModel = $block->getViewModel();
+$banners = $viewModel->getActiveBanners();
+// Lấy 2 banner đầu tiên
+$leftBanner = isset($banners[1]) ? $banners[1] : null;
+$rightBanner = isset($banners[2]) ? $banners[2] : null;
+?>
+
+<?php if ($leftBanner): ?>
+    <div class="tiki-ads-left">
+        <a href="<?= $escaper->escapeUrl($leftBanner->getLink()) ?>">
+            <img src="<?= $escaper->escapeUrl($viewModel->getImageUrl($leftBanner->getImage())) ?>"
+                 alt="<?= $escaper->escapeHtml($leftBanner->getTitle()) ?>">
+        </a>
+    </div>
+<?php endif; ?>
+
+<?php if ($rightBanner): ?>
+    <div class="tiki-ads-right">
+        <a href="<?= $escaper->escapeUrl($rightBanner->getLink()) ?>">
+            <img src="<?= $escaper->escapeUrl($viewModel->getImageUrl($rightBanner->getImage())) ?>"
+                 alt="<?= $escaper->escapeHtml($rightBanner->getTitle()) ?>">
+        </a>
+    </div>
+<?php endif; ?>
+
+<style>
+    /* CSS để ghim banner vào 2 bên sườn */
+    .tiki-ads-left, .tiki-ads-right {
+        position: fixed; /* Ghim cố định khi cuộn chuột */
+        top: 250px;      /* Cách đỉnh web 1 đoạn */
+        width: 120px;    /* Chiều rộng banner */
+        z-index: 999;    /* Nổi lên trên cùng */
+        transition: top 0.5s;
+    }
+
+    .tiki-ads-left {
+        left: 10px; /* Sát lề trái */
+    }
+
+    .tiki-ads-right {
+        right: 10px; /* Sát lề phải */
+    }
+
+    .tiki-ads-left img, .tiki-ads-right img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    /* Ẩn trên mobile vì màn hình bé quá */
+    @media (max-width: 1200px) {
+        .tiki-ads-left, .tiki-ads-right {
+            display: none;
+        }
+    }
+</style>

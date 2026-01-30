@@ -7,6 +7,11 @@
                     <argument name="view_model" xsi:type="object">Magenest\UiKnockout\ViewModel\PopupConfig</argument>
                 </arguments>
             </block>
+            <block class="Magento\Framework\View\Element\Template" name="floating.banners" template="Magenest_UiKnockout::floating_banner.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Magenest\UiKnockout\ViewModel\BannerDisplay</argument>
+                </arguments>
+            </block>
         </referenceContainer>
     </body>
 </page>
