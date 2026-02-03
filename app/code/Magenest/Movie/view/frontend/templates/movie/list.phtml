@@ -1,11 +1,43 @@
 <?php
+/** @var \Magenest\Movie\Block\ListMovie $block */
 $movies = $block->getMovies();
+?>
 
-foreach ($movies as $movie): ?>
-    <div> <?= $movie->getName() ?></div>
-    <div><?= $block->getDirector($movie->getDirectorId())->getName() ?></div>
-    <?php $actors = $block->getActorsByMovieId($movie->getMovieId());
-    foreach ($actors as $actor): ?>
-        <div> Actor: <?= $actor['name'] ?></div>
-    <?php endforeach; ?>
-<?php endforeach; ?>
+<?php if ($movies && count($movies) > 0): ?>
+    <table class="movie-list-table" border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+        <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th>Phim</th>
+            <th>Đạo diễn</th>
+            <th>Diễn viên</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($movies as $movie): ?>
+            <?php
+            $director = $block->getDirector($movie->getDirectorId());
+            $actors = $block->getActorsByMovieId($movie->getMovieId());
+            ?>
+            <tr>
+                <td><?= $block->escapeHtml($movie->getName()) ?></td>
+                <td>
+                    <?= $director ? $block->escapeHtml($director->getName()) : 'Chưa có đạo diễn' ?>
+                </td>
+                <td>
+                    <?php if ($actors && count($actors) > 0): ?>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <?php foreach ($actors as $actor): ?>
+                                <li><?= $block->escapeHtml($actor['name']) ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        Chưa có diễn viên
+                    <?php endif; ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php else: ?>
+    <p>Chưa có phim nào được thêm.</p>
+<?php endif; ?>

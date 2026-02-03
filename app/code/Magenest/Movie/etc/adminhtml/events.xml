@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="admin_system_config_changed_section_movie">
+        <observer name="magenest_change_ping_to_pong"
+                  instance="Magenest\Movie\Observer\ConfigPingToPong"/>
+    </event>
+
+    <!--
+        Observer: Save Course Documents khi product được save
+
+        Vì sao dùng Observer thay vì Plugin?
+        - Product Initialization Helper chỉ lấy data từ $_POST['product']
+        - Data từ dynamicRows với dataScope khác (course_documents_data) không được add vào Product
+        - Observer có thể lấy data trực tiếp từ Request
+    -->
+    <event name="catalog_product_save_after">
+        <observer name="magenest_movie_save_course_documents"
+                  instance="Magenest\Movie\Observer\Catalog\ProductSaveAfterObserver"/>
+    </event>
+</config>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <fieldset name="customer">
+        <field name="avatar" sortOrder="90" formElement="imageUploader">
+            <settings>
+                <label translate="true">Avatar</label>
+                <componentType>imageUploader</componentType>
+                <dataScope>avatar</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">false</rule>
+                </validation>
+            </settings>
+            <formElements>
+                <imageUploader>
+                    <settings>
+                        <required>false</required>
+                        <uploaderConfig>
+                            <param xsi:type="url" name="url" path="movie/avatar/upload"/>
+                        </uploaderConfig>
+                        <previewTmpl>Magento_Catalog/image-preview</previewTmpl>
+                        <openDialogTitle>Media Gallery</openDialogTitle>
+                        <allowedExtensions>jpg jpeg png gif</allowedExtensions>
+                        <maxFileSize>2097152</maxFileSize>
+                    </settings>
+                </imageUploader>
+            </formElements>
+        </field>
+    </fieldset>
+
+    <fieldset name="avatar_tab" sortOrder="100">
+        <settings>
+            <label translate="true">Avatar</label>
+            <collapsible>true</collapsible>
+            <opened>false</opened>
+        </settings>
+        <htmlContent name="avatar_tab_content">
+            <block class="Magenest\Movie\Block\Adminhtml\Customer\Edit\Tab\Avatar"
+                   name="customer_avatar_block"
+                   template="Magenest_Movie::customer/edit/tab/avatar.phtml"/>
+        </htmlContent>
+    </fieldset>
+</form>

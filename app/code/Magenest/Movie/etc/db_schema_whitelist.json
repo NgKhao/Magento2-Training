@@ -1,0 +1,21 @@
+{
+    "magenest_course_document": {
+        "column": {
+            "id": true,
+            "product_id": true,
+            "title": true,
+            "type": true,
+            "link_url": true,
+            "file_path": true,
+            "file_name": true,
+            "created_at": true
+        },
+        "index": {
+            "MAGENEST_COURSE_DOCUMENT_PRODUCT_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "MAGENEST_COURSE_DOCUMENT_PRD_ID_CAT_PRD_ENTT_ENTT_ID": true
+        }
+    }
+}
