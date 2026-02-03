@@ -2,6 +2,8 @@
 <form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <fieldset name="product-details">
+        <!-- course_start_time và course_end_time được render bởi EAV + Modifier (CourseTimeAttributes) -->
+
         <fieldset name="course_documents_fieldset" sortOrder="999">
             <settings>
                 <label translate="true">Course Documents</label>

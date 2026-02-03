@@ -10,6 +10,11 @@
                     <item name="class" xsi:type="string">Magenest\Movie\Ui\DataProvider\Product\Form\Modifier\CourseDocuments</item>
                     <item name="sortOrder" xsi:type="number">100</item>
                 </item>
+                <!-- Đăng ký modifier CourseTimeAttributes để customize datetime fields -->
+                <item name="course-time-attributes" xsi:type="array">
+                    <item name="class" xsi:type="string">Magenest\Movie\Ui\DataProvider\Product\Form\Modifier\CourseTimeAttributes</item>
+                    <item name="sortOrder" xsi:type="number">200</item>
+                </item>
             </argument>
         </arguments>
     </virtualType>
