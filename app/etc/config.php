@@ -328,6 +328,7 @@ return [
         'Magento_WishlistAnalytics' => 1,
         'Magento_WishlistGraphQl' => 1,
         'Magenest_Movie' => 1,
+        'Magenest_UiKnockout' => 1,
         'Packt_CustomerAttribute' => 1,
         'Packt_HelloWorld' => 1,
         'Packt_SEO' => 1,

@@ -1,0 +1,31 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ */
+?>
+
+<div id="delivery-options-component" data-bind="scope: 'delivery-options'">
+    <!--
+        KnockoutJS Template Placeholder
+        - ko template: getTemplate() → Gọi hàm getTemplate() của component
+        - Component sẽ trả về tên template: 'Magenest_UiKnockout/delivery-template'
+        - Magento sẽ tìm file: view/frontend/web/template/delivery-template.html
+        - Render nội dung vào đây
+    -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+<!--input  ẩn để lưu giá trị gửi lên server-->
+<input type="hidden" name="options[4]" value="" />
+
+<!--
+    - Script type="text/x-magento-init": Định dạng đặc biệt của Magento
+    - Magento sẽ đọc và khởi tạo component khi DOM ready
+-->
+<script type="text/x-magento-init">
+{
+    "#delivery-options-component": {
+        "Magento_Ui/js/core/app": <?= /* @noEscape */ $block->getJsLayout() ?>
+    }
+}
+</script>
+

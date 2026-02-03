@@ -1,0 +1,12 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+<!--        Thêm vào header -->
+        <referenceContainer name="header.panel">
+            <block class="Magento\Framework\View\Element\Template" name="color.switcher" template="Magenest_UiKnockout::switcher_color.phtml" after="-">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Magenest\UiKnockout\ViewModel\ColorConfig</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

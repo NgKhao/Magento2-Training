@@ -1,0 +1,43 @@
+<div class="delivery-group">
+    <strong class="title">Chọn thời gian giao hàng:</strong>
+
+    <div class="option-row">
+        <input type="radio"
+               name="delivery_type"
+               id="delivery_today"
+               value="today"
+               data-bind="checked: deliveryType, click: selectType.bind($data, 'today')">
+        <!--
+            data-bind giải thích:
+            - checked: deliveryType → Khi radio này được chọn, deliveryType = 'today'
+            - click: selectType.bind($data, 'today') → Khi click, gọi hàm selectType với tham số 'today'
+        -->
+        <label for="delivery_today">Giao hàng trong ngày</label>
+    </div>
+
+    <!-- OPTION 2: Chọn ngày giao hàng tùy chỉnh -->
+    <div class="option-row">
+        <input type="radio"
+               name="delivery_type"
+               id="delivery_custom"
+               value="custom"
+               data-bind="checked: deliveryType, click: selectType.bind($data, 'custom')">
+        <label for="delivery_custom">Chọn ngày giao hàng</label>
+    </div>
+
+    <!-- DATEPICKER: Chỉ hiện khi chọn option "custom" -->
+    <div class="custom-date-picker"
+         data-bind="visible: deliveryType() === 'custom'"
+         style="margin-left: 20px; margin-top: 10px;">
+        <input type="text"
+               class="input-text"
+               placeholder="Chọn ngày giao hàng..."
+               data-bind="datepicker: { storage: selectedDate, options: getDatePickerOptions() }" />
+        <!--
+            datepicker: Custom binding của Magento
+            - storage: selectedDate → Giá trị chọn được lưu vào selectedDate observable
+            - options: getDatePickerOptions() → Cấu hình datepicker (format, minDate, etc.)
+        -->
+    </div>
+
+</div>
