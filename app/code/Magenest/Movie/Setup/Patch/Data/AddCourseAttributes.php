@@ -30,12 +30,15 @@ class AddCourseAttributes implements DataPatchInterface
             'course_start_time',
             [
                 'type' => 'datetime',
-                'input' => 'datetime',
+                'input' => 'date',
                 'label' => 'Course Start Time',
                 'required' => false,
                 'user_defined' => true,
                 'visible' => true,
                 'system' => 0,
+                'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+                'visible_on_front' => true,
+                'group' => 'General',
             ]
         );
 
@@ -44,15 +47,30 @@ class AddCourseAttributes implements DataPatchInterface
             'course_end_time',
             [
                 'type' => 'datetime',
-                'input' => 'datetime',
+                'input' => 'date',
                 'label' => 'Course End Time',
                 'required' => false,
                 'user_defined' => true,
                 'visible' => true,
                 'system' => 0,
+                'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+                'visible_on_front' => true,
+                'group' => 'General',
             ]
         );
 
+        $categorySetup->addAttributeToSet(
+            Product::ENTITY,
+            25,
+            'General', // Tên group trong set đó
+            'course_start_time'
+        );
+        $categorySetup->addAttributeToSet(
+            Product::ENTITY,
+            25,
+            'General', // Tên group trong set đó
+            'course_end_time'
+        );
     }
 
     public static function getDependencies()
