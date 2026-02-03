@@ -1,0 +1,203 @@
+<?php
+/**
+ * Blog View Template
+ *
+ * =============================================================================
+ * THẦY GIẢI THÍCH: Template trong Magento 2
+ * =============================================================================
+ *
+ * Template (PHTML) là nơi hiển thị HTML.
+ *
+ * Important variables:
+ * - $block: Instance của Block class (Magenest\Movie\Block\Blog\View)
+ * - $this: Alias của $block
+ * - $escaper: Helper để escape HTML (bảo mật)
+ *
+ * Best practices:
+ * - Luôn escape output: $block->escapeHtml()
+ * - Không viết business logic trong template
+ * - Gọi Block methods để lấy data
+ *
+ * =============================================================================
+ *
+ * @var \Magenest\Movie\Block\Blog\View $block
+ */
+
+/** @var \Magenest\Movie\Model\Blog $blog */
+$blog = $block->getBlog();
+
+if (!$blog): ?>
+    <div class="message error">
+        <div><?= $block->escapeHtml(__('Blog not found.')) ?></div>
+    </div>
+<?php else: ?>
+
+    <!-- Blog Details Container -->
+    <div class="blog-view-container">
+
+        <!-- Blog Header -->
+        <div class="blog-header">
+            <div class="blog-meta">
+                <!-- Author -->
+                <span class="blog-author">
+                    <strong><?= $block->escapeHtml(__('By:')) ?></strong>
+                    <?= $block->escapeHtml($block->getAuthorName()) ?>
+                </span>
+
+                <!-- Created Date -->
+                <span class="blog-date">
+                    <strong><?= $block->escapeHtml(__('Published on:')) ?></strong>
+                    <?= $block->escapeHtml($block->formatDate($blog->getCreatedAt())) ?>
+                </span>
+
+                <!-- Updated Date (nếu khác created date) -->
+                <?php if ($blog->getUpdatedAt() != $blog->getCreatedAt()): ?>
+                    <span class="blog-updated">
+                        <strong><?= $block->escapeHtml(__('Updated:')) ?></strong>
+                        <?= $block->escapeHtml($block->formatDate($blog->getUpdatedAt())) ?>
+                    </span>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <!-- Blog Description -->
+        <?php if ($blog->getDescription()): ?>
+            <div class="blog-description">
+                <p class="lead">
+                    <?= $block->escapeHtml($blog->getDescription()) ?>
+                </p>
+            </div>
+        <?php endif; ?>
+
+        <!-- Blog Content -->
+        <div class="blog-content">
+            <?= /* @noEscape */ $block->getFormattedContent() ?>
+            <!--
+                Thầy note:
+                - @noEscape vì content đã được sanitize trong Block
+                - Nếu cho phép HTML trong content cần careful với XSS
+            -->
+        </div>
+
+        <!-- Blog Footer / Share / Comments -->
+        <div class="blog-footer">
+            <div class="blog-share">
+                <h3><?= $block->escapeHtml(__('Share this post')) ?></h3>
+                <!-- Add social share buttons here -->
+                <div class="share-buttons">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($block->getBlogUrl()) ?>"
+                       target="_blank"
+                       class="share-button facebook">
+                        <?= $block->escapeHtml(__('Facebook')) ?>
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?url=<?= urlencode($block->getBlogUrl()) ?>&text=<?= urlencode($blog->getTitle()) ?>"
+                       target="_blank"
+                       class="share-button twitter">
+                        <?= $block->escapeHtml(__('Twitter')) ?>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to Blog List -->
+        <div class="blog-actions">
+            <a href="<?= $block->escapeUrl($block->getUrl('movie/index/index')) ?>"
+               class="action back">
+                <span><?= $block->escapeHtml(__('← Back to Blog List')) ?></span>
+            </a>
+        </div>
+
+    </div>
+
+<!--    <!-- Basic CSS for Blog View -->-->
+<!--    <style>-->
+<!--        .blog-view-container {-->
+<!--            max-width: 800px;-->
+<!--            margin: 20px auto;-->
+<!--            padding: 20px;-->
+<!--        }-->
+<!---->
+<!--        .blog-header {-->
+<!--            border-bottom: 2px solid #e0e0e0;-->
+<!--            padding-bottom: 20px;-->
+<!--            margin-bottom: 30px;-->
+<!--        }-->
+<!---->
+<!--        .blog-title {-->
+<!--            font-size: 2.5em;-->
+<!--            margin-bottom: 15px;-->
+<!--            color: #333;-->
+<!--        }-->
+<!---->
+<!--        .blog-meta {-->
+<!--            color: #666;-->
+<!--            font-size: 0.9em;-->
+<!--        }-->
+<!---->
+<!--        .blog-meta span {-->
+<!--            margin-right: 20px;-->
+<!--            display: inline-block;-->
+<!--        }-->
+<!---->
+<!--        .blog-description {-->
+<!--            background: #f5f5f5;-->
+<!--            padding: 20px;-->
+<!--            border-left: 4px solid #007bff;-->
+<!--            margin-bottom: 30px;-->
+<!--            font-style: italic;-->
+<!--        }-->
+<!---->
+<!--        .blog-content {-->
+<!--            line-height: 1.8;-->
+<!--            font-size: 1.1em;-->
+<!--            margin-bottom: 40px;-->
+<!--        }-->
+<!---->
+<!--        .blog-content p {-->
+<!--            margin-bottom: 15px;-->
+<!--        }-->
+<!---->
+<!--        .blog-footer {-->
+<!--            border-top: 1px solid #e0e0e0;-->
+<!--            padding-top: 30px;-->
+<!--            margin-top: 40px;-->
+<!--        }-->
+<!---->
+<!--        .share-buttons {-->
+<!--            margin-top: 15px;-->
+<!--        }-->
+<!---->
+<!--        .share-button {-->
+<!--            display: inline-block;-->
+<!--            padding: 10px 20px;-->
+<!--            margin-right: 10px;-->
+<!--            background: #007bff;-->
+<!--            color: white;-->
+<!--            text-decoration: none;-->
+<!--            border-radius: 5px;-->
+<!--        }-->
+<!---->
+<!--        .share-button:hover {-->
+<!--            background: #0056b3;-->
+<!--        }-->
+<!---->
+<!--        .blog-actions {-->
+<!--            margin-top: 30px;-->
+<!--        }-->
+<!---->
+<!--        .action.back {-->
+<!--            display: inline-block;-->
+<!--            padding: 10px 20px;-->
+<!--            background: #6c757d;-->
+<!--            color: white;-->
+<!--            text-decoration: none;-->
+<!--            border-radius: 5px;-->
+<!--        }-->
+<!---->
+<!--        .action.back:hover {-->
+<!--            background: #5a6268;-->
+<!--        }-->
+<!--    </style>-->
+
+<?php endif; ?>
+

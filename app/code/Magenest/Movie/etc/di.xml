@@ -12,4 +12,52 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Magento\Customer\Api\CustomerRepositoryInterface">
+        <plugin name="magenest_movie_validate_phone_number"
+                type="Magenest\Movie\Plugin\CustomerTelephonePlugin"
+                sortOrder="10"/>
+    </type>
+
+    <!--
+        ====================================================================
+        PLUGIN: Kiểm tra URL Rewrite trùng lặp trước khi save Blog
+        ====================================================================
+    -->
+    <type name="Magenest\Movie\Model\ResourceModel\Blog">
+        <plugin name="magenest_movie_validate_blog_url_rewrite"
+                type="Magenest\Movie\Plugin\BlogPlugin"
+                sortOrder="10"/>
+    </type>
+
+
+    <!--
+        ====================================================================
+        API REPOSITORY: Preference Binding
+        ====================================================================
+        Preference binding map Interface → Implementation class
+
+        1. BlogInterface → Blog Model
+           - Khi inject BlogInterface, Magento sẽ inject Blog Model
+
+        2. BlogRepositoryInterface → BlogRepository
+           - Khi inject BlogRepositoryInterface, Magento inject BlogRepository
+
+        3. BlogSearchResultsInterface → BlogSearchResults
+           - Khi tạo SearchResults, Magento dùng BlogSearchResults class
+    -->
+
+    <!-- Bind Blog Interface to Blog Model -->
+    <preference for="Magenest\Movie\Api\Data\BlogInterface"
+                type="Magenest\Movie\Model\Blog"/>
+
+    <!-- Bind Blog Repository Interface to Blog Repository -->
+    <preference for="Magenest\Movie\Api\BlogRepositoryInterface"
+                type="Magenest\Movie\Model\BlogRepository"/>
+
+    <!-- Bind Blog Search Results Interface to Blog Search Results -->
+    <preference for="Magenest\Movie\Api\Data\BlogSearchResultsInterface"
+                type="Magenest\Movie\Model\BlogSearchResults"/>
+
+
 </config>

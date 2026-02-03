@@ -1,11 +1,45 @@
 <?xml version="1.0"?>
+<!--
+    DI Configuration - Frontend Plugins
+
+    Khai báo các plugins để customize checkout
+-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <type name="Magento\Checkout\CustomerData\ItemPool">
 
+    <!-- Plugin fix product name & image trong minicart -->
+    <type name="Magento\Checkout\CustomerData\ItemPool">
         <plugin name="minicart_fix_name"
                 type="Magenest\Movie\Plugin\FixProductNameAndImg"
-                sortOrder="10"
-        />
+                sortOrder="10"/>
     </type>
+
+    <!--
+        Plugin: Thêm Vietnam Region field vào checkout form
+
+        Target: Magento\Checkout\Block\Checkout\LayoutProcessor
+        Method: process() - build jsLayout từ XML + EAV
+        Plugin: afterProcess() - thêm vn_region field config
+    -->
+    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
+        <plugin name="checkout_layout_processor_add_vn_region"
+                type="Magenest\Movie\Plugin\Checkout\LayoutProcessorPlugin"
+                sortOrder="100"
+                disabled="false"/>
+    </type>
+
+    <type name="Magento\Framework\App\RouterList">
+        <arguments>
+            <argument name="routerList" xsi:type="array">
+                <item name="magenest_blog_router" xsi:type="array">
+                    <item name="class" xsi:type="string">Magenest\Movie\Controller\Router\BlogRouter</item>
+                    <!--                    mở router-->
+                    <item name="disable" xsi:type="boolean">false</item>
+                    <item name="sortOrder" xsi:type="string">35</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
 </config>
+

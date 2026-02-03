@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <!--
+
+            - before/after: Điều khiển vị trí của block
+              before="-": Đặt block ở vị trí đầu tiên trong container
+              after="-": Đặt block ở vị trí cuối cùng
+              before="other.block.name": Đặt trước block cụ thể
+              after="other.block.name": Đặt sau block cụ thể
+            -->
+            <block
+                class="Magenest\Movie\Block\B2bBanner"
+                name="magenest.movie.b2b.banner.home"
+                template="Magenest_Movie::b2b_banner.phtml"
+                cacheable="false"
+                before="-"/>
+        </referenceContainer>
+    </body>
+</page>
+
