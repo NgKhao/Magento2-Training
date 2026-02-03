@@ -70,6 +70,7 @@ class Avatar extends AbstractBackend
     public function beforeSave($object)
     {
         $attributeCode = $this->getAttribute()->getAttributeCode();
+        $value = null;
         $postData = $this->getRequest()->getPostValue();
         if (isset($postData['customer'][$attributeCode])) {
             $value = $postData['customer'][$attributeCode];
